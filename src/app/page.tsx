@@ -14,7 +14,7 @@ function HomePage() {
             </div>
             <div className="w-[350px] h-[60px] mx-auto">
                     <PrimaryButton size="full">
-                        Try for Free
+                        Get Started
                     </PrimaryButton>
                 </div>
         </div>
