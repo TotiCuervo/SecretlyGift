@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 
 import localFont from 'next/font/local'
+import Navbar from '@/components/nav-bar'
 
 const myFont = localFont({
     src: './Baloo-Regular.ttf',
