@@ -4,8 +4,5 @@
     "semi": false,
     "singleQuote": true,
     "printWidth": 120,
-    "singleAttributePerLine": false,
-    "plugins": [
-        "prettier-plugin-tailwindcss"
-    ]
+    "singleAttributePerLine": false
 }
