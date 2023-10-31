@@ -2,7 +2,7 @@ import React from 'react'
 
 import PrimaryButton from '@/components/buttons/primary-button'
 import NavbarLayout from '../../components/nav-bar/nav-bar-layout'
-import Navbar from '../_components/nav-bar'
+import Navbar from './_components/nav-bar'
 
 function HomePage() {
     return (

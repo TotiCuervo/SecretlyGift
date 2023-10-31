@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-    return <GlobalLayout additionalClasses="bg-background">{children}</GlobalLayout>
+    return <GlobalLayout>{children}</GlobalLayout>
 }

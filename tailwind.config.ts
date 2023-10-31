@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import colors from 'tailwindcss/colors'
 
 const config: Config = {
     content: [
@@ -17,7 +18,16 @@ const config: Config = {
             },
             colors: {
                 background: 'rgb(241, 239, 238)',
-                white: 'rgb(255, 255, 255)'
+                white: 'rgb(255, 255, 255)',
+                primary: colors.indigo
+            },
+            transitionProperty: {
+                width: 'width',
+                height: 'height',
+                'scale-x': 'scale-x',
+                'translate-x': 'translate-x',
+                flex: 'flex',
+                'font-size': 'font-size'
             }
         }
     },
