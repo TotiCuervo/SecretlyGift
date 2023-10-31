@@ -8,7 +8,7 @@ import { Profile } from '@/types/Profile'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { UseFormHandleSubmit, UseFormRegister, useForm } from 'react-hook-form'
+import { SubmitHandler, UseFormHandleSubmit, UseFormRegister, useForm } from 'react-hook-form'
 
 interface IContextProps {
     children: ReactNode
@@ -20,7 +20,7 @@ interface FormData {
 }
 
 const schema = z.object({
-    eventName: z.string().min(3, { message: 'Event needs to be more than 3 characters' }).default(''),
+    eventName: z.string().min(3, { message: 'Event needs to be more than 3 characters' }).default('Howdy'),
     eventDate: z.date()
 })
 
@@ -35,6 +35,8 @@ export function CreateProvider({ children }: IContextProps) {
     const router = useRouter()
 
     const supabase = createClientComponentClient<Database>()
+
+    const onSubmit: SubmitHandler<FormData> = (data) => console.log(data)
 
     const { register, handleSubmit } = useForm<FormData>({
         resolver: zodResolver(schema)
