@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <GlobalLayout additionalClasses="bg-background">
+        <GlobalLayout>
             <NavbarLayout Navbar={Navbar} />
             {children}
         </GlobalLayout>

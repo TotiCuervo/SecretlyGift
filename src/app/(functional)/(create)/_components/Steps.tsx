@@ -2,14 +2,7 @@
 import Tooltip from '@/components/tooltip/tooltip'
 import { useActivePath } from '@/lib/useActivePath'
 import { Disclosure } from '@headlessui/react'
-import {
-    AdjustmentsHorizontalIcon,
-    CalendarDaysIcon,
-    CogIcon,
-    EnvelopeIcon,
-    FlagIcon,
-    UsersIcon
-} from '@heroicons/react/24/outline'
+import { CalendarDaysIcon, CogIcon, EnvelopeIcon, FlagIcon, UsersIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 
@@ -56,61 +49,82 @@ export default function Steps() {
         }
     ]
 
-    return (
-        <div className="inline-block bg-white p-4 rounded-full border-2 w-full">
-      <div className="flex items-center justify-center divide-x-2">
-        {steps.map((step, index) => (
-          <Disclosure as="div" key={index}>
-            {({ open }) => (
-              <div className="flex items-center px-4">
-                <Link href={step.path}>
-                  <Tooltip text={step.title}>
-                    <div
-                      className={twMerge(
-                        'transition-all duration-300 ease-in-out p-2 rounded-full',
-                        step.active
-                          ? 'bg-primary-700 rounded-full shadow-lg'
-                          : 'bg-transparent hover:bg-gray-200'
-                      )}
-                    >
-                      <step.icon
-                        className={twMerge(
-                          'transition-all duration-300 ease-in-out w-6 h-6',
-                          step.active ? 'text-white' : 'text-gray-500'
-                        )}
-                      />
-                    </div>
-                  </Tooltip>
-                </Link>
+    const activeStep = steps.find((step) => step.active)
+    const activeStepPosition = steps.indexOf(activeStep!)
 
+    return (
+        <>
+            <div className="flex justify-center pb-2">
                 <div
-                  className={twMerge(
-                    'transition-all duration-500 ease-in-out flex flex-col justify-center',
-                    step.active ? 'pl-4' : 'pl-0',
-                    step.active ? `w-36 h-10` : `w-0 h-0`
-                  )}
+                    className={twMerge(
+                        'visible flex overflow-hidden opacity-100 transition-opacity delay-500 duration-500 ease-in-out sm:invisible sm:opacity-0'
+                    )}
                 >
-                  <Disclosure.Panel static>
-                    <div
-                      className={twMerge(
-                        'transition-opacity duration-500 ease-in-out flex flex-col overflow-hidden',
-                        step.active
-                          ? 'delay-500 opacity-100 visible'
-                          : 'opacity-0 invisible'
-                      )}
-                    >
-                      <div className="text-xs font-semibold text-primary-600">
-                        Step {index + 1}/{steps.length}
-                      </div>
-                      <div className="text-sm text-gray-900 font-bold">{step.title}</div>
-                    </div>
-                  </Disclosure.Panel>
+                    <span className="text-md font-bold text-gray-900">
+                        <span className="text-primary-600">
+                            Step {activeStepPosition + 1}/{steps.length}:{' '}
+                        </span>
+                        {activeStep!.title}
+                    </span>
                 </div>
-              </div>
-            )}
-          </Disclosure>
-        ))}
-      </div>
-    </div>
+            </div>
+            <div className="flex justify-center">
+                <div className="inline-block w-11/12 rounded-full border-2 bg-white p-2 sm:w-full sm:p-4">
+                    <div className="flex items-center justify-center divide-x-2">
+                        {steps.map((step, index) => (
+                            <Disclosure as="div" key={index}>
+                                {({ open }) => (
+                                    <div className="flex items-center px-3 sm:px-4">
+                                        <Link href={step.path}>
+                                            <Tooltip text={step.title}>
+                                                <div
+                                                    className={twMerge(
+                                                        'rounded-full p-2 transition-all duration-300 ease-in-out',
+                                                        step.active
+                                                            ? 'rounded-full bg-primary-700 shadow-lg'
+                                                            : 'bg-transparent hover:bg-gray-200'
+                                                    )}
+                                                >
+                                                    <step.icon
+                                                        className={twMerge(
+                                                            'h-5 w-5 transition-all duration-300 ease-in-out sm:h-6 sm:w-6',
+                                                            step.active ? 'text-white' : 'text-gray-500'
+                                                        )}
+                                                    />
+                                                </div>
+                                            </Tooltip>
+                                        </Link>
+
+                                        <div
+                                            className={twMerge(
+                                                'flex flex-col justify-center transition-all duration-500 ease-in-out',
+                                                step.active ? 'pl-0 sm:pl-4' : 'pl-0',
+                                                step.active ? `h-0 w-0 sm:h-10 sm:w-36` : `h-0 w-0`
+                                            )}
+                                        >
+                                            <Disclosure.Panel static>
+                                                <div
+                                                    className={twMerge(
+                                                        'flex flex-col overflow-hidden transition-opacity duration-500 ease-in-out',
+                                                        step.active
+                                                            ? 'invisible opacity-0 delay-500 sm:visible sm:opacity-100'
+                                                            : 'invisible opacity-0'
+                                                    )}
+                                                >
+                                                    <div className="text-xs font-semibold text-primary-600">
+                                                        Step {index + 1}/{steps.length}
+                                                    </div>
+                                                    <div className="text-sm font-bold text-gray-900">{step.title}</div>
+                                                </div>
+                                            </Disclosure.Panel>
+                                        </div>
+                                    </div>
+                                )}
+                            </Disclosure>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }

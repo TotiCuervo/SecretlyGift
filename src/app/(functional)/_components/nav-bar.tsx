@@ -21,34 +21,36 @@ export default function Navbar({ isSessioned }: IProps) {
             <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <a href="#" className="-m-1.5 p-1.5">
-                        <span className="font-baloo text-4xl">Secretly</span>
+                        <span className="font-baloo text-xl sm:text-4xl">Secretly</span>
                     </a>
                 </div>
-                <div className="flex lg:hidden">
+                <div className="flex sm:hidden">
                     <button
                         type="button"
                         className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                         onClick={() => setMobileMenuOpen(true)}
                     >
                         <span className="sr-only">Open main menu</span>
-                        <Bars3Icon className="h-12 w-12" aria-hidden="true" />
+                        <Bars3Icon className="h-8 w-8 sm:h-12 sm:w-12" aria-hidden="true" />
                     </button>
                 </div>
-                {isSessioned && (
-                    <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900">
-                        <SecondaryButton size="xl">Dashboard</SecondaryButton>
-                    </Link>
-                )}
-                {!isSessioned && (
-                    <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-12 items-center">
-                        <Link href="/login" className="text-xl font-semibold leading-6 text-gray-900">
-                            Log in
+                <div className="hidden sm:flex">
+                    {isSessioned && (
+                        <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900">
+                            <SecondaryButton size="xl">Dashboard</SecondaryButton>
                         </Link>
-                        <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900">
-                            <PrimaryOutlineButton size="xl">Try for free</PrimaryOutlineButton>
-                        </Link>
-                    </div>
-                )}
+                    )}
+                    {!isSessioned && (
+                        <div className="items-center lg:flex lg:flex-1 lg:justify-end lg:gap-x-12">
+                            <Link href="/login" className="text-xl font-semibold leading-6 text-gray-900">
+                                Log in
+                            </Link>
+                            <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900">
+                                <PrimaryOutlineButton size="xl">Try for free</PrimaryOutlineButton>
+                            </Link>
+                        </div>
+                    )}
+                </div>
             </nav>
             <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                 <div className="fixed inset-0 z-10" />

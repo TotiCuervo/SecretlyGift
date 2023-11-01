@@ -6,7 +6,8 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "update-types": "npx supabase gen types typescript --project-id \"hxbosacqoipfzrikxxxy\" > src/types/schema.ts"
     },
     "dependencies": {
         "@aliakbarazizi/headless-datepicker": "^2.0.2",
@@ -43,6 +44,6 @@
         "@types/luxon": "^3.3.2",
         "prettier": "^3.0.3",
         "prettier-plugin-tailwindcss": "^0.4.1",
-        "supabase": "^1.88.0"
+        "supabase": "^1.110.1"
     }
 }
