@@ -14,14 +14,14 @@ interface IContextProps {
     children: ReactNode
 }
 
-interface FormData {
+export interface FormData {
     eventName: string
     eventDate: Date
 }
 
 const schema = z.object({
-    eventName: z.string().min(3, { message: 'Event needs to be more than 3 characters' }).default('Howdy'),
-    eventDate: z.date()
+    eventName: z.string().min(3, { message: 'Event needs to be more than 3 characters' }).default('Howdy')
+    // eventDate: z.date()
 })
 
 export interface CreateContextType {
@@ -35,8 +35,6 @@ export function CreateProvider({ children }: IContextProps) {
     const router = useRouter()
 
     const supabase = createClientComponentClient<Database>()
-
-    const onSubmit: SubmitHandler<FormData> = (data) => console.log(data)
 
     const { register, handleSubmit } = useForm<FormData>({
         resolver: zodResolver(schema)

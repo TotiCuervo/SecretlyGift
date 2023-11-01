@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@aliakbarazizi/headless-datepicker": "^2.0.2",
         "@headlessui/react": "^1.7.16",
         "@heroicons/react": "^2.0.18",
         "@hookform/resolvers": "^3.3.2",
