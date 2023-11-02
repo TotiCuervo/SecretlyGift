@@ -1,7 +1,7 @@
 import '../app/globals.css'
-import { SessionProvider } from '@/context/SessionContext'
 import { twMerge } from 'tailwind-merge'
 import localFont from 'next/font/local'
+import Providers from './providers'
 
 const myFont = localFont({
     src: '../app/Baloo-Regular.ttf',
@@ -17,9 +17,9 @@ interface IProps {
 export default function GlobalLayout({ children, additionalClasses }: IProps) {
     return (
         <html lang="en" className={twMerge(`${myFont.variable}`, additionalClasses ? additionalClasses : null)}>
-            <SessionProvider>
+            <Providers>
                 <body>{children}</body>
-            </SessionProvider>
+            </Providers>
         </html>
     )
 }

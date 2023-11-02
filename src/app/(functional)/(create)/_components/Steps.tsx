@@ -4,6 +4,7 @@ import { useActivePath } from '@/lib/useActivePath'
 import { Disclosure } from '@headlessui/react'
 import { CalendarDaysIcon, CogIcon, EnvelopeIcon, FlagIcon, UsersIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
 
 interface Step {
@@ -15,6 +16,7 @@ interface Step {
 
 export default function Steps() {
     const isActivePath = useActivePath()
+    const { uuid } = useParams()
 
     const steps: Step[] = [
         {
@@ -25,9 +27,9 @@ export default function Steps() {
         },
         {
             icon: UsersIcon,
-            active: isActivePath('/participants'),
+            active: isActivePath(`/${uuid}/participants`),
             title: 'Participants',
-            path: '/participants'
+            path: `/${uuid}/participants`
         },
         {
             icon: FlagIcon,

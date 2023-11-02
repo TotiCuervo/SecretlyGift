@@ -7,6 +7,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import DatepickerInput from '../_components/form/datepicker-input'
 import { createEvent } from '@/endpoints/event/createEvent'
+import { useRouter } from 'next/navigation'
+import { Event } from '@/types/Event'
 
 export interface FormData {
     eventName: string
@@ -19,6 +21,8 @@ const schema = z.object({
 })
 
 export default function page() {
+    const router = useRouter()
+
     const { handleSubmit, control } = useForm<FormData>({
         resolver: zodResolver(schema)
     })
@@ -31,6 +35,9 @@ export default function page() {
             name: data.eventName,
             date: data.eventDate.toLocaleDateString()
         })
+            .then((res) => {
+                router.push(`/${res.data.uuid}/participants`)
+            })
             .catch((err) => {
                 console.log(err)
             })

@@ -36,21 +36,21 @@ export interface Database {
       participant: {
         Row: {
           created_at: string
-          event: string | null
+          event: string
           id: number
           name: string | null
           profile: string
         }
         Insert: {
           created_at?: string
-          event?: string | null
+          event: string
           id?: number
           name?: string | null
           profile: string
         }
         Update: {
           created_at?: string
-          event?: string | null
+          event?: string
           id?: number
           name?: string | null
           profile?: string
@@ -59,12 +59,14 @@ export interface Database {
           {
             foreignKeyName: "participant_event_fkey"
             columns: ["event"]
+            isOneToOne: false
             referencedRelation: "event"
             referencedColumns: ["uuid"]
           },
           {
             foreignKeyName: "participant_profile_fkey"
             columns: ["profile"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -99,6 +101,7 @@ export interface Database {
           {
             foreignKeyName: "profiles_id_fkey"
             columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

@@ -1,4 +1,4 @@
-import useSupabase from '@/lib/useSupabase'
+import useSupabase from '@/lib/supabase/useSupabase'
 import { Event } from '@/types/Event'
 import { type NextRequest, NextResponse } from 'next/server'
 
@@ -41,8 +41,5 @@ export async function POST(req: NextRequest) {
         return NextResponse.error()
     }
 
-    return Response.json({
-        event,
-        participant
-    })
+    return Response.json(event[0])
 }
