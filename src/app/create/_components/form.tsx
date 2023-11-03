@@ -3,7 +3,6 @@ import GhostButton from '@/components/buttons/ghost-button'
 import PrimaryButton from '@/components/buttons/primary-button'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import React, { FormEventHandler } from 'react'
-import { UseFormHandleSubmit } from 'react-hook-form'
 
 interface IProps {
     title: string
@@ -11,9 +10,21 @@ interface IProps {
     children: React.ReactNode
     handleSubmit: FormEventHandler<HTMLFormElement>
     loading: boolean
+    buttonText: string
+    backButtonDisabled: boolean
+    backButtonOnClick?: () => void
 }
 
-function Form({ title, subtitle, children, handleSubmit, loading }: IProps) {
+function Form({
+    title,
+    subtitle,
+    children,
+    handleSubmit,
+    loading,
+    buttonText,
+    backButtonDisabled,
+    backButtonOnClick
+}: IProps) {
     return (
         <div className="mx-auto w-full">
             <h2 className="mb-4 text-3xl font-bold text-primary-950">{title}</h2>
@@ -21,14 +32,14 @@ function Form({ title, subtitle, children, handleSubmit, loading }: IProps) {
             <form onSubmit={handleSubmit} className="mt-10">
                 {children}
                 <div className="mt-10 flex justify-end gap-4">
-                    <GhostButton>
+                    <GhostButton onClick={backButtonOnClick} disabled={backButtonDisabled}>
                         <div className="flex">
                             <ArrowLeftIcon className="mr-2 h-5 w-5" />
                             Back
                         </div>
                     </GhostButton>
                     <PrimaryButton type="submit" loading={loading} loadingText="Saving...">
-                        Next Step
+                        {buttonText}
                     </PrimaryButton>
                 </div>
             </form>
