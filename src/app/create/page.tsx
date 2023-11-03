@@ -8,6 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import DatepickerInput from './_components/datepicker-input'
 import { useRouter } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
+import useSupabase from '@/lib/supabase/useSupabase'
+import { Profile } from '@/lib/select/Profile'
+import useSupabaseClient from '@/lib/supabase/useSupabaseClient'
 
 export interface FormData {
     eventName: string
@@ -30,9 +33,15 @@ const userSchema = z.object({
 })
 
 export default function page() {
-    const router = useRouter()
+    const supabase = useSupabaseClient()
+    const [loading, setLoading] = useState(false)
+    const [step, setStep] = useState(1)
 
-    const { handleSubmit: eventSubmit, control: eventControl } = useForm<FormData>({
+    const {
+        handleSubmit: eventSubmit,
+        control: eventControl,
+        formState: eventState
+    } = useForm<FormData>({
         resolver: zodResolver(schema)
     })
 
@@ -40,18 +49,26 @@ export default function page() {
         resolver: zodResolver(userSchema)
     })
 
-    const [loading, setLoading] = useState(false)
-    const [step, setStep] = useState(1)
-
     function onSubmit(data: FormData) {
         setStep(2)
     }
 
-    function onUserSubmit(data: UserData) {
+    async function onUserSubmit(data: UserData) {
         setLoading(true)
+        const { userName, userEmail } = data
+        const { eventDate, eventName } = eventState.dirtyFields
+
+        const { count, error: profileError } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true })
+            .eq('email', userEmail)
+            .single()
+
+        console.log({ count })
+
         // createEvent({
-        //     name: data.eventName,
-        //     date: data.eventDate.toLocaleDateString()
+        //     name: eventData.eventName,
+        //     date: eventData.eventDate.toLocaleDateString()
         // })
         //     .then((res) => {
         //         router.push(`/${res.data.uuid}/participants`)

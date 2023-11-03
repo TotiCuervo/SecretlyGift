@@ -3,12 +3,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import SecondaryButton from '@/components/buttons/secondary-button'
 import PrimaryOutlineButton from '@/components/buttons/primary-outline-button'
-
-function classNames(...classes: any[]) {
-    return classes.filter(Boolean).join(' ')
-}
+import ProfileDropdown from '../dropdown/profile-dropdown'
+import GhostButton from '../buttons/ghost-button'
 
 interface IProps {
     isSessioned: boolean
@@ -20,9 +17,9 @@ export default function Navbar({ isSessioned }: IProps) {
         <>
             <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
-                    <a href="#" className="-m-1.5 p-1.5">
+                    <Link href="/" className="-m-1.5 p-1.5">
                         <span className="font-baloo text-4xl">Secretly</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className="flex lg:hidden">
                     <button
@@ -35,12 +32,15 @@ export default function Navbar({ isSessioned }: IProps) {
                     </button>
                 </div>
                 {isSessioned && (
-                    <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900">
-                        <SecondaryButton size="xl">Dashboard</SecondaryButton>
-                    </Link>
+                    <>
+                        <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900">
+                            <GhostButton>Dashboard</GhostButton>
+                        </Link>
+                        <ProfileDropdown />
+                    </>
                 )}
                 {!isSessioned && (
-                    <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-12 items-center">
+                    <div className="hidden items-center lg:flex lg:flex-1 lg:justify-end lg:gap-x-12">
                         <Link href="/login" className="text-xl font-semibold leading-6 text-gray-900">
                             Log in
                         </Link>
