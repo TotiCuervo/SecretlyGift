@@ -1,5 +1,5 @@
 import { Profile as ProfileSelect } from '@/lib/select/Profile'
-import useSupabaseAdmin from '@/lib/supabase/useSupabaseAdmin'
+import SupabaseAdmin from '@/lib/supabase/SupabaseAdmin'
 import { Event } from '@/types/events/Event'
 import { EventInsert } from '@/types/events/EventInsert'
 import { Profile } from '@/types/Profile'
@@ -11,7 +11,7 @@ interface RequestParams {
 }
 
 export async function POST(req: NextRequest) {
-    const supabase = useSupabaseAdmin()
+    const supabase = SupabaseAdmin()
 
     const { event, user } = (await req.json()) as RequestParams
 

@@ -1,5 +1,6 @@
 import Badge from '@/components/badge/badge'
 import PrimaryButton from '@/components/buttons/primary-button'
+import Image from 'next/image'
 import React from 'react'
 
 export default function ExchangeDetailCard() {
@@ -22,32 +23,32 @@ export default function ExchangeDetailCard() {
     const additionalMembersCount = members.length - 3
 
     return (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col justify-center items-center p-4">
-            <div className="flex items-center mb-2 justify-between w-full">
+        <div className="flex flex-col items-center justify-center overflow-hidden rounded-lg bg-white p-4 shadow-lg">
+            <div className="mb-2 flex w-full items-center justify-between">
                 <Badge color="green">Active</Badge>
-                <p className="text-gray-600 text-sm ml-auto">{date}</p>
+                <p className="ml-auto text-sm text-gray-600">{date}</p>
             </div>
             <div className="px-4 py-2 text-center">
-                <h2 className="font-bold text-2xl mb-2">name</h2>
-                <p className="text-gray-600 text-base">{members.length} members</p>
-                <div className="flex items-center justify-center mt-4">
+                <h2 className="mb-2 text-2xl font-bold">name</h2>
+                <p className="text-base text-gray-600">{members.length} members</p>
+                <div className="mt-4 flex items-center justify-center">
                     {members.slice(0, 3).map((member) => (
-                        <img
+                        <Image
                             key={member.id}
-                            className="rounded-full border-white border-2 -ml-2 z-10 h-12 w-12"
+                            className="z-10 -ml-2 h-12 w-12 rounded-full border-2 border-white"
                             src={member.avatar}
                             alt={member.name}
                             style={{ zIndex: members.length - member.id }}
                         />
                     ))}
                     {additionalMembersCount > 0 && (
-                        <div className="rounded-full border-white border-2 -ml-2 z-10 h-12 w-12 flex items-center justify-center bg-gray-200">
-                            <p className="text-gray-600 text-base">+{additionalMembersCount}</p>
+                        <div className="z-10 -ml-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-200">
+                            <p className="text-base text-gray-600">+{additionalMembersCount}</p>
                         </div>
                     )}
                 </div>
             </div>
-            <div className="h-10 w-full mt-4">
+            <div className="mt-4 h-10 w-full">
                 <PrimaryButton size="full">View Details</PrimaryButton>
             </div>
         </div>
