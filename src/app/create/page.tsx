@@ -153,6 +153,7 @@ export default function Page() {
                                 {...field}
                                 error={fieldState?.error?.message}
                                 key={'eventName'}
+                                ref={null}
                             />
                         )}
                     />
@@ -166,6 +167,7 @@ export default function Page() {
                                 {...field}
                                 error={fieldState?.error?.message}
                                 key={'eventDate'}
+                                ref={null}
                             />
                         )}
                     />

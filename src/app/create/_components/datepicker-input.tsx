@@ -35,7 +35,7 @@ export default function DatepickerInput({ error, title, onChange, value, ...prop
                     )}
                     placeholder="Select a date"
                 />
-                <Datepicker.Picker defaultType="day" className="rounded-md bg-white p-4 shadow-md">
+                <Datepicker.Picker defaultType="day" className="z-10 rounded-md bg-white p-4 shadow-md">
                     {({ monthName, hour, minute, year }) => (
                         <>
                             <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">
