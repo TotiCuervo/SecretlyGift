@@ -1,11 +1,11 @@
 import { ElementType } from 'react'
-import useSupabase from '@/lib/supabase/useSupabase'
+import useSupabaseServer from '@/lib/supabase/useSupabaseServer'
 
 interface IProps {
     Navbar: ElementType
 }
 export default async function NavbarLayout({ Navbar }: IProps) {
-    const supabase = useSupabase('server')
+    const supabase = useSupabaseServer()
 
     const {
         data: { session }
