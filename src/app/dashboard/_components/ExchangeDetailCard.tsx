@@ -33,13 +33,9 @@ export default function ExchangeDetailCard() {
                 <p className="text-base text-gray-600">{members.length} members</p>
                 <div className="mt-4 flex items-center justify-center">
                     {members.slice(0, 3).map((member) => (
-                        <Image
-                            key={member.id}
-                            className="z-10 -ml-2 h-12 w-12 rounded-full border-2 border-white"
-                            src={member.avatar}
-                            alt={member.name}
-                            style={{ zIndex: members.length - member.id }}
-                        />
+                        <div className="z-10 -ml-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-200">
+                            <p className="text-base text-gray-600"></p>
+                        </div>
                     ))}
                     {additionalMembersCount > 0 && (
                         <div className="z-10 -ml-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-200">
