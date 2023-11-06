@@ -1,5 +1,5 @@
 import { useSessionContext } from '@/context/SessionContext'
-import Dropdown from './dropdown'
+import Dropdown from '../dropdown'
 import { UserIcon } from '@heroicons/react/24/solid'
 
 export interface MenuItem {

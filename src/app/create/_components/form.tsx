@@ -33,16 +33,26 @@ function Form({
             </div>
             <form onSubmit={handleSubmit} className="mt-10">
                 {children}
-                <div className="mt-10 flex justify-end gap-4">
-                    <GhostButton type="button" onClick={backButtonOnClick} disabled={backButtonDisabled}>
-                        <div className="flex">
-                            <ArrowLeftIcon className="mr-2 h-5 w-5" />
-                            Back
-                        </div>
-                    </GhostButton>
+                <div className="mt-10 flex flex-col justify-end gap-4 sm:flex-row">
+                    <div className="hidden sm:block">
+                        <GhostButton type="button" onClick={backButtonOnClick} disabled={backButtonDisabled}>
+                            <div className="flex">
+                                <ArrowLeftIcon className="mr-2 h-5 w-5" />
+                                Back
+                            </div>
+                        </GhostButton>
+                    </div>
                     <PrimaryButton type="submit" loading={loading} loadingText="Saving...">
                         {buttonText}
                     </PrimaryButton>
+                    <div className="flex flex-col sm:hidden">
+                        <GhostButton type="button" onClick={backButtonOnClick} disabled={backButtonDisabled}>
+                            <div className="flex justify-center">
+                                <ArrowLeftIcon className="mr-2 h-5 w-5" />
+                                Back
+                            </div>
+                        </GhostButton>
+                    </div>
                 </div>
             </form>
         </div>
