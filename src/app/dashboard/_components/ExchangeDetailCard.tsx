@@ -32,8 +32,8 @@ export default function ExchangeDetailCard() {
                 <h2 className="mb-2 text-2xl font-bold">name</h2>
                 <p className="text-base text-gray-600">{members.length} members</p>
                 <div className="mt-4 flex items-center justify-center">
-                    {members.slice(0, 3).map((member) => (
-                        <div className="z-10 -ml-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-200">
+                    {members.slice(0, 3).map((member, index) => (
+                        <div key={index} className="z-10 -ml-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-200">
                             <p className="text-base text-gray-600"></p>
                         </div>
                     ))}
