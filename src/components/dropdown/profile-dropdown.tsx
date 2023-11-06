@@ -32,7 +32,7 @@ export default function ProfileDropdown() {
 
     return (
         <Dropdown menuItems={menuItems}>
-            <UserIcon className="h-12 w-12 rounded-full border p-2" />
+            <UserIcon className="h-12 w-12 rounded-full border bg-white p-2" />
         </Dropdown>
     )
 }

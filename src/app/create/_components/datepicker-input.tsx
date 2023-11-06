@@ -18,7 +18,7 @@ export default function DatepickerInput({ error, title, onChange, value, ...prop
             <label
                 htmlFor="phone"
                 className={twMerge(
-                    'block text-sm font-medium mb-2',
+                    'mb-2 block text-sm font-medium',
                     !error && 'text-indigo-900',
                     error && 'text-red-700'
                 )}
@@ -29,7 +29,7 @@ export default function DatepickerInput({ error, title, onChange, value, ...prop
                 <Datepicker.Input
                     format="EEEE, MMMM dd, yyyy"
                     className={twMerge(
-                        'mt-1 p-2.5 w-[300px] flex-grow outline-none rounded-lg border focus:ring-1 shadow transition duration-150 ease-in-out',
+                        'mt-1 w-[300px] flex-grow rounded-lg border p-2.5 shadow outline-none transition duration-150 ease-in-out focus:ring-1',
                         !error && 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500',
                         error && 'border-red-700 bg-red-50 focus:border-red-500 focus:ring-red-500'
                     )}
@@ -41,27 +41,27 @@ export default function DatepickerInput({ error, title, onChange, value, ...prop
                             <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">
                                 <Datepicker.Button
                                     action="prev"
-                                    className="rounded-full p-2 text-sm font-medium hover:bg-indigo-700 hover:text-white rtl:rotate-180 transition duration-150 ease-in-out"
+                                    className="rounded-full p-2 text-sm font-medium transition duration-150 ease-in-out hover:bg-indigo-700 hover:text-white rtl:rotate-180"
                                 >
                                     Prev
                                 </Datepicker.Button>
                                 <div className="flex">
                                     <Datepicker.Button
                                         action="toggleMonth"
-                                        className="leading-2 p-2 text-lg font-semibold hover:bg-indigo-700 hover:text-white transition duration-150 ease-in-out"
+                                        className="leading-2 p-2 text-lg font-semibold transition duration-150 ease-in-out hover:bg-indigo-700 hover:text-white"
                                     >
                                         {monthName}
                                     </Datepicker.Button>
                                     <Datepicker.Button
                                         action="toggleYear"
-                                        className="leading-2 p-2 text-lg font-semibold hover:bg-indigo-700 hover:text-white transition duration-150 ease-in-out"
+                                        className="leading-2 p-2 text-lg font-semibold transition duration-150 ease-in-out hover:bg-indigo-700 hover:text-white"
                                     >
                                         {year}
                                     </Datepicker.Button>
                                 </div>
                                 <Datepicker.Button
                                     action="next"
-                                    className="rounded-full p-2 text-sm font-medium hover:bg-indigo-700 hover:text-white rtl:rotate-180 transition duration-150 ease-in-out"
+                                    className="rounded-full p-2 text-sm font-medium transition duration-150 ease-in-out hover:bg-indigo-700 hover:text-white rtl:rotate-180"
                                 >
                                     Next
                                 </Datepicker.Button>
@@ -82,14 +82,14 @@ export default function DatepickerInput({ error, title, onChange, value, ...prop
                                             key={item.key}
                                             item={item}
                                             className={twMerge(
-                                                'grid items-center justify-center rounded-full py-1.5 text-sm font-medium select-none',
+                                                'grid select-none items-center justify-center rounded-full py-1.5 text-sm font-medium',
                                                 item.isHeader
                                                     ? 'cursor-default'
-                                                    : 'hover:bg-indigo-700 hover:text-white transition duration-150 ease-in-out',
+                                                    : 'transition duration-150 ease-in-out hover:bg-indigo-700 hover:text-white',
                                                 item.disabled ? 'text-gray-500' : 'hover:text-white',
                                                 item.type === 'day' && 'h-8 w-8',
                                                 item.isSelected &&
-                                                    'bg-indigo-200 border-indigo-700 border text-indigo-950 shadow text-center',
+                                                    'border border-indigo-700 bg-indigo-200 text-center text-indigo-950 shadow',
                                                 item.isToday && 'border border-indigo-500'
                                             )}
                                             action={
@@ -107,7 +107,7 @@ export default function DatepickerInput({ error, title, onChange, value, ...prop
                             </Datepicker.Items>
                             <Datepicker.Button
                                 action="today"
-                                className="mt-4 w-full bg-indigo-600 p-2 text-sm font-medium hover:bg-indigo-700 transition duration-150 ease-in-out text-white rounded-md"
+                                className="mt-4 w-full rounded-md bg-indigo-600 p-2 text-sm font-medium text-white transition duration-150 ease-in-out hover:bg-indigo-700"
                             >
                                 Today
                             </Datepicker.Button>

@@ -29,7 +29,7 @@ export default function AuthForm() {
             }}
             showLinks={false}
             providers={[]}
-            redirectTo="http://localhost:3000/api/auth/callback"
+            redirectTo={location.origin + '/api/auth/callback'}
         />
     )
 }

@@ -19,7 +19,8 @@ const config: Config = {
             colors: {
                 background: 'rgb(241, 239, 238)',
                 white: 'rgb(255, 255, 255)',
-                primary: colors.indigo
+                primary: colors.indigo,
+                secondary: colors.emerald
             },
             transitionProperty: {
                 width: 'width',

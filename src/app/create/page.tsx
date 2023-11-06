@@ -6,11 +6,11 @@ import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import DatepickerInput from './_components/datepicker-input'
-import { useRouter } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
-import useSupabase from '@/lib/supabase/useSupabase'
-import { Profile } from '@/lib/select/Profile'
 import useSupabaseClient from '@/lib/supabase/useSupabaseClient'
+import UserExists from './_components/user-exists'
+import { createEventWithNewUser } from '@/endpoints/event/createEventWithNewUser'
+import Confirmation from './_components/confirmation'
 
 export interface FormData {
     eventName: string
@@ -24,7 +24,14 @@ export interface UserData {
 
 const schema = z.object({
     eventName: z.string().min(3, { message: 'Event needs to be more than 3 characters' }),
-    eventDate: z.date()
+    eventDate: z.date().refine(
+        (val) => {
+            const now = new Date()
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+            return val >= today
+        },
+        { message: 'Event date must not be in the past' }
+    )
 })
 
 const userSchema = z.object({
@@ -36,49 +43,93 @@ export default function page() {
     const supabase = useSupabaseClient()
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(1)
+    const [showState, setShowState] = useState<'UserExist' | 'Confirmation' | null>(null)
 
     const {
         handleSubmit: eventSubmit,
         control: eventControl,
-        formState: eventState
+        getValues: getEventValues
     } = useForm<FormData>({
         resolver: zodResolver(schema)
     })
 
-    const { handleSubmit: userSubmit, control: userControl } = useForm<UserData>({
+    const {
+        handleSubmit: userSubmit,
+        control: userControl,
+        getValues: getUserValues
+    } = useForm<UserData>({
         resolver: zodResolver(userSchema)
     })
 
-    function onSubmit(data: FormData) {
+    function onSubmit() {
         setStep(2)
     }
 
     async function onUserSubmit(data: UserData) {
         setLoading(true)
-        const { userName, userEmail } = data
-        const { eventDate, eventName } = eventState.dirtyFields
+        console.log('hit')
 
-        const { count, error: profileError } = await supabase
+        const { userName, userEmail } = data
+        const { eventDate, eventName } = getEventValues()
+
+        const { count } = await supabase
             .from('profiles')
             .select('*', { count: 'exact', head: true })
             .eq('email', userEmail)
             .single()
 
-        console.log({ count })
+        if (!!count && count > 0) {
+            setShowState('UserExist')
+            setLoading(false)
+            return
+        }
 
-        // createEvent({
-        //     name: eventData.eventName,
-        //     date: eventData.eventDate.toLocaleDateString()
-        // })
-        //     .then((res) => {
-        //         router.push(`/${res.data.uuid}/participants`)
-        //     })
-        //     .catch((err) => {
-        //         console.log(err)
-        //     })
-        //     .finally(() => {
-        //         setLoading(false)
-        //     })
+        const { error } = await supabase.auth.signInWithOtp({
+            email: userEmail,
+            options: {
+                emailRedirectTo: location.origin + '/api/auth/callback'
+            }
+        })
+
+        if (error) {
+            setLoading(false)
+            return
+        }
+
+        createEventWithNewUser(
+            {
+                name: eventName,
+                date: eventDate.toLocaleDateString()
+            },
+            {
+                name: userName,
+                email: userEmail
+            }
+        )
+            .then((res) => {
+                setShowState('Confirmation')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
+    if (showState === 'Confirmation') {
+        return (
+            <Confirmation
+                userEmail="cuervor14@gmail.com"
+                userName="Toti Cuervo"
+                eventName="Yacht Club Secret Santa 2023"
+                eventDate={new Date()}
+            />
+        )
+    }
+
+    if (showState === 'UserExist') {
+        return <UserExists email={getUserValues('userEmail')} onBack={() => setShowState(null)} />
     }
 
     return (
@@ -122,8 +173,8 @@ export default function page() {
             </div>
             <div className={twMerge(step === 2 ? 'block' : 'hidden')}>
                 <Form
-                    title="And tell us about you?"
-                    subtitle="Tell us a little about the event."
+                    title="Thanks for coordinating!"
+                    subtitle="Tell us a little about you."
                     handleSubmit={userSubmit(onUserSubmit)}
                     loading={loading}
                     buttonText="Create"

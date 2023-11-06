@@ -27,12 +27,14 @@ function Form({
 }: IProps) {
     return (
         <div className="mx-auto w-full">
-            <h2 className="mb-4 text-3xl font-bold text-primary-950">{title}</h2>
-            {subtitle && <p className="mb-4 font-light text-primary-950">{subtitle}</p>}
+            <div className="w-full text-center">
+                <h2 className="mb-8 text-5xl font-bold text-primary-950">{title}</h2>
+                {subtitle && <p className="mb-4 font-light text-primary-950">{subtitle}</p>}
+            </div>
             <form onSubmit={handleSubmit} className="mt-10">
                 {children}
                 <div className="mt-10 flex justify-end gap-4">
-                    <GhostButton onClick={backButtonOnClick} disabled={backButtonDisabled}>
+                    <GhostButton type="button" onClick={backButtonOnClick} disabled={backButtonDisabled}>
                         <div className="flex">
                             <ArrowLeftIcon className="mr-2 h-5 w-5" />
                             Back

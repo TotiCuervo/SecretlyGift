@@ -1,5 +1,5 @@
-import { Event } from '@/types/Event'
-import { EventInsert } from '@/types/EventInsert'
+import { Event } from '@/types/events/Event'
+import { EventInsert } from '@/types/events/EventInsert'
 import client from '@/utils/client'
 import { AxiosResponse } from 'axios'
 

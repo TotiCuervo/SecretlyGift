@@ -12,6 +12,7 @@ export interface Database {
       event: {
         Row: {
           created_at: string
+          created_by: string
           date: string
           id: number
           name: string
@@ -19,6 +20,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          created_by?: string
           date: string
           id?: number
           name: string
@@ -26,18 +28,28 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          created_by?: string
           date?: string
           id?: number
           name?: string
           uuid?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "event_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       participant: {
         Row: {
           created_at: string
           event: string
           id: number
+          is_admin: boolean
           name: string | null
           profile: string
         }
@@ -45,6 +57,7 @@ export interface Database {
           created_at?: string
           event: string
           id?: number
+          is_admin?: boolean
           name?: string | null
           profile: string
         }
@@ -52,6 +65,7 @@ export interface Database {
           created_at?: string
           event?: string
           id?: number
+          is_admin?: boolean
           name?: string | null
           profile?: string
         }
@@ -75,27 +89,27 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string | null
+          email: string | null
           full_name: string | null
           id: string
           updated_at: string | null
           username: string | null
-          website: string | null
         }
         Insert: {
           avatar_url?: string | null
+          email?: string | null
           full_name?: string | null
           id: string
           updated_at?: string | null
           username?: string | null
-          website?: string | null
         }
         Update: {
           avatar_url?: string | null
+          email?: string | null
           full_name?: string | null
           id?: string
           updated_at?: string | null
           username?: string | null
-          website?: string | null
         }
         Relationships: [
           {

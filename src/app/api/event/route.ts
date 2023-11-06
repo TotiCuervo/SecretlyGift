@@ -1,5 +1,5 @@
 import useSupabase from '@/lib/supabase/useSupabase'
-import { Event } from '@/types/Event'
+import { Event } from '@/types/events/Event'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
@@ -32,7 +32,8 @@ export async function POST(req: NextRequest) {
         .from('participant')
         .insert({
             profile: user.id,
-            event: event[0].uuid
+            event: event[0].uuid,
+            name: user.user_metadata.full_name
         })
         .select()
 
