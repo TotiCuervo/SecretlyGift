@@ -1,13 +1,12 @@
 import { UseBaseQueryOptions, useQuery } from '@tanstack/react-query'
 import { EventKeys } from '../keys'
 import { Profile } from '@/types/Profile'
-import useSupabaseClient from '@/lib/supabase/useSupabaseClient'
+import SupabaseClient from '@/lib/supabase/SupabaseClient'
 import { Event } from '@/types/events/Event'
-import { EventSelect } from '@/lib/select/EventSelect'
 
 type Options = Omit<UseBaseQueryOptions<Event[]>, 'queryKey'>
 export default function useEventByProfileQuery(profileId: Profile['id'], options?: Options) {
-    const supabase = useSupabaseClient()
+    const supabase = SupabaseClient()
 
     async function fetch(profileId: Profile['id']) {
         console.log({ profileId })

@@ -1,7 +1,7 @@
 'use client'
 import GhostButton from '@/components/buttons/ghost-button'
 import PrimaryButton from '@/components/buttons/primary-button'
-import useSupabaseClient from '@/lib/supabase/useSupabaseClient'
+import SupabaseClient from '@/lib/supabase/SupabaseClient'
 import React, { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export default function UserExists({ email, onBack }: IProps) {
-    const supabase = useSupabaseClient()
+    const supabase = SupabaseClient()
 
     const [loading, setLoading] = useState(false)
     const [status, setStatus] = useState<'error' | 'success'>()

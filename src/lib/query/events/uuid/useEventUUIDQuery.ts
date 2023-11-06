@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { EventKeys } from '../keys'
 import { Event } from '@/types/events/Event'
-import useSupabaseClient from '@/lib/supabase/useSupabaseClient'
+import SupabaseClient from '@/lib/supabase/SupabaseClient'
 
 export default function useEventUUIDQuery(uuid: Event['uuid']) {
-    const supabase = useSupabaseClient()
+    const supabase = SupabaseClient()
 
     async function fetch(uuid: Event['uuid']) {
         const { data, error } = await supabase.from('event').select('*').eq('uuid', uuid).single()

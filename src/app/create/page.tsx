@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import DatepickerInput from './_components/datepicker-input'
 import { twMerge } from 'tailwind-merge'
-import useSupabaseClient from '@/lib/supabase/useSupabaseClient'
+import SupabaseClient from '@/lib/supabase/SupabaseClient'
 import UserExists from './_components/user-exists'
 import { createEventWithNewUser } from '@/endpoints/event/createEventWithNewUser'
 import Confirmation from './_components/confirmation'
@@ -39,8 +39,8 @@ const userSchema = z.object({
     userEmail: z.string().email({ message: 'Please enter a valid email' })
 })
 
-export default function page() {
-    const supabase = useSupabaseClient()
+export default function Page() {
+    const supabase = SupabaseClient()
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(1)
     const [showState, setShowState] = useState<'UserExist' | 'Confirmation' | null>(null)

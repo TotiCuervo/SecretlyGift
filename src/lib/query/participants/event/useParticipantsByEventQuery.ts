@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { ParticipantKeys } from '../keys'
-import useSupabaseClient from '@/lib/supabase/useSupabaseClient'
+import SupabaseClient from '@/lib/supabase/SupabaseClient'
 import { ParticipantWithProfile } from '@/types/ParticipantWithProfile'
 
 export default function useParticipantWithProfileByEventQuery(event: ParticipantWithProfile['event']) {
-    const supabase = useSupabaseClient()
+    const supabase = SupabaseClient()
 
     async function fetch(event: ParticipantWithProfile['event']) {
         const { data = [], error } = await supabase

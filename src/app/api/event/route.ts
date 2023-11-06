@@ -1,10 +1,9 @@
-import useSupabase from '@/lib/supabase/useSupabase'
-import useSupabaseServer from '@/lib/supabase/useSupabaseServer'
+import SupabaseServer from '@/lib/supabase/SupabaseServer'
 import { Event } from '@/types/events/Event'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
-    const supabase = useSupabaseServer()
+    const supabase = SupabaseServer()
 
     const { name, date } = await req.json()
 
