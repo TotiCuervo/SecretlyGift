@@ -42,5 +42,5 @@ export async function POST(req: NextRequest) {
         return NextResponse.error()
     }
 
-    return Response.json(event[0])
+    return NextResponse.json(event[0])
 }
