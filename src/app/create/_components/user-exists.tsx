@@ -40,7 +40,7 @@ export default function UserExists({ email, onBack }: IProps) {
 
     return (
         <div className="mx-auto w-full text-center">
-            <h1 className="mb-4 break-all text-4xl font-bold text-primary-700 md:text-6xl">{email}</h1>
+            <h1 className="mb-4 break-all font-baloo text-4xl font-bold text-primary-700 md:text-6xl">{email}</h1>
 
             <h1 className="mb-4 text-4xl font-bold text-primary-950 md:text-6xl">Is that you?</h1>
             <p className="mb-4 text-sm font-light text-primary-950 md:text-base">

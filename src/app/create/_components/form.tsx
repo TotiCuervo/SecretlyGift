@@ -28,8 +28,8 @@ function Form({
     return (
         <div className="mx-auto w-full">
             <div className="w-full text-center">
-                <h2 className="mb-8 text-5xl font-bold text-primary-950">{title}</h2>
-                {subtitle && <p className="mb-4 font-light text-primary-950">{subtitle}</p>}
+                <h2 className="mb-8 font-baloo text-5xl font-bold text-primary-700 drop-shadow-md">{title}</h2>
+                {subtitle && <p className="mb-4 font-light text-primary-800">{subtitle}</p>}
             </div>
             <form onSubmit={handleSubmit} className="mt-10">
                 {children}
