@@ -11,5 +11,5 @@ export default async function NavbarLayout({ Navbar }: IProps) {
         data: { session }
     } = await supabase.auth.getSession()
 
-    return <header className="p-5">{<Navbar isSessioned={session ? true : false} />}</header>
+    return <header>{<Navbar isSessioned={session ? true : false} />}</header>
 }
