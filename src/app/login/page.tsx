@@ -1,14 +1,12 @@
-import AuthForm from '@/components/forms/auth-form'
+import Form from './_components/form'
 
 export default function Page() {
     return (
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-            <div className="sm:mx-auto sm:w-full">
-                <h1 className="mt-10 text-center text-4xl font-bold text-gray-900">Sign in to your account</h1>
-            </div>
-
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <AuthForm />
+        <div className="h-screen p-5 sm:p-0">
+            <div className="pt-20">
+                <div className="mx-auto w-full max-w-xl rounded-xl bg-white p-8 shadow-lg">
+                    <Form />
+                </div>
             </div>
         </div>
     )

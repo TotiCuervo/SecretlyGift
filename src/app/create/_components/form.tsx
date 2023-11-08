@@ -27,9 +27,9 @@ function Form({
 }: IProps) {
     return (
         <div className="mx-auto w-full">
-            <div className="w-full text-center">
-                <h2 className="mb-8 text-5xl font-bold text-primary-950">{title}</h2>
-                {subtitle && <p className="mb-4 font-light text-primary-950">{subtitle}</p>}
+            <div className="w-full">
+                <h1 className="mb-2 text-xl font-bold sm:text-3xl">{title}</h1>
+                {subtitle && <p>{subtitle}</p>}
             </div>
             <form onSubmit={handleSubmit} className="mt-10">
                 {children}

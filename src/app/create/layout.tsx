@@ -5,9 +5,9 @@ interface IProps {
 }
 export default function layout({ children }: IProps) {
     return (
-        <div className="mx-auto flex h-screen max-w-3xl flex-col">
-            <div className="flex w-full flex-col items-center">
-                <div className="mt-8 w-full px-4">{children}</div>
+        <div className="h-screen p-5 sm:p-0">
+            <div className="pt-20">
+                <div className="mx-auto w-full max-w-xl rounded-xl bg-white p-8 shadow-lg">{children}</div>
             </div>
         </div>
     )

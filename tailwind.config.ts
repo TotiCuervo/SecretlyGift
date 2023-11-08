@@ -19,7 +19,19 @@ const config: Config = {
             colors: {
                 background: 'rgb(241, 239, 238)',
                 white: 'rgb(255, 255, 255)',
-                primary: colors.indigo,
+                primary: {
+                    '50': '#fef3f2',
+                    '100': '#ffe2e1',
+                    '200': '#ffcbc8',
+                    '300': '#ffa7a2',
+                    '400': '#fc746d',
+                    '500': '#f55951',
+                    '600': '#e12a21',
+                    '700': '#be1f17',
+                    '800': '#9d1e17',
+                    '900': '#821f1a',
+                    '950': '#470b08'
+                },
                 secondary: colors.emerald
             },
             transitionProperty: {

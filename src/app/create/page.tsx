@@ -1,11 +1,11 @@
 'use client'
 import React, { useState } from 'react'
 import Form from './_components/form'
-import TextInput from './_components/textinput'
+import TextInput from '../../components/inputs/text-input'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import DatepickerInput from './_components/datepicker-input'
+import DatepickerInput from '../../components/inputs/datepicker-input'
 import { twMerge } from 'tailwind-merge'
 import SupabaseClient from '@/lib/supabase/SupabaseClient'
 import UserExists from './_components/user-exists'
@@ -67,7 +67,6 @@ export default function Page() {
 
     async function onUserSubmit(data: UserData) {
         setLoading(true)
-        console.log('hit')
 
         const { userName, userEmail } = data
         const { eventDate, eventName } = getEventValues()
@@ -136,27 +135,28 @@ export default function Page() {
         <>
             <div className={twMerge(step === 1 ? 'block' : 'hidden')}>
                 <Form
-                    title="It's time to party!"
-                    subtitle="Tell us a little about the event."
+                    title="Tell us a little about the event."
+                    subtitle="It is time to party!"
                     handleSubmit={eventSubmit(onSubmit)}
                     loading={loading}
                     backButtonDisabled={true}
                     buttonText="Next"
                 >
-                    <Controller
-                        name="eventName"
-                        control={eventControl}
-                        rules={{ required: true }}
-                        render={({ field, fieldState }) => (
-                            <TextInput
-                                title={'Name of Event'}
-                                {...field}
-                                error={fieldState?.error?.message}
-                                key={'eventName'}
-                                ref={null}
-                            />
-                        )}
-                    />
+                    <div className="mb-6">
+                        <Controller
+                            name="eventName"
+                            control={eventControl}
+                            rules={{ required: true }}
+                            render={({ field, fieldState }) => (
+                                <TextInput
+                                    title={'Name of Event'}
+                                    {...field}
+                                    error={fieldState?.error?.message}
+                                    key={'eventName'}
+                                />
+                            )}
+                        />
+                    </div>
                     <Controller
                         name="eventDate"
                         control={eventControl}
@@ -167,7 +167,6 @@ export default function Page() {
                                 {...field}
                                 error={fieldState?.error?.message}
                                 key={'eventDate'}
-                                ref={null}
                             />
                         )}
                     />
@@ -175,28 +174,30 @@ export default function Page() {
             </div>
             <div className={twMerge(step === 2 ? 'block' : 'hidden')}>
                 <Form
-                    title="Thanks for coordinating!"
-                    subtitle="Tell us a little about you."
+                    title="Tell us a little about you."
+                    subtitle="Thanks for coordinating!"
                     handleSubmit={userSubmit(onUserSubmit)}
                     loading={loading}
                     buttonText="Create"
                     backButtonDisabled={false}
                     backButtonOnClick={() => setStep(1)}
                 >
-                    <Controller
-                        name="userName"
-                        control={userControl}
-                        rules={{ required: true }}
-                        render={({ field, fieldState }) => (
-                            <TextInput
-                                title={'Your name'}
-                                {...field}
-                                error={fieldState?.error?.message}
-                                ref={null}
-                                key={'userName'}
-                            />
-                        )}
-                    />
+                    <div className="mb-6">
+                        <Controller
+                            name="userName"
+                            control={userControl}
+                            rules={{ required: true }}
+                            render={({ field, fieldState }) => (
+                                <TextInput
+                                    title={'Your name'}
+                                    {...field}
+                                    error={fieldState?.error?.message}
+                                    ref={null}
+                                    key={'userName'}
+                                />
+                            )}
+                        />
+                    </div>
                     <Controller
                         name="userEmail"
                         control={userControl}

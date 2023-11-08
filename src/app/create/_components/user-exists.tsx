@@ -40,14 +40,14 @@ export default function UserExists({ email, onBack }: IProps) {
 
     return (
         <div className="mx-auto w-full text-center">
-            <h1 className="mb-4 break-all text-4xl font-bold text-primary-700 md:text-6xl">{email}</h1>
+            <h1 className="mb-4 break-all font-baloo text-4xl text-primary-700 md:text-3xl">{email}</h1>
 
-            <h1 className="mb-4 text-4xl font-bold text-primary-950 md:text-6xl">Is that you?</h1>
-            <p className="mb-4 text-sm font-light text-primary-950 md:text-base">
+            <h1 className="mb-4 text-3xl">Is that you?</h1>
+            <p className="mb-8 text-sm md:text-base">
                 Looks like this user already exists. If so, login to create your event.
             </p>
-            <div className="mt-10 flex justify-center md:mt-20">
-                <div className="h-10 w-11/12 md:h-12 md:w-10/12">
+            <div className="flex justify-center ">
+                <div className="h-10 w-11/12 md:h-10 md:w-10/12">
                     <PrimaryButton
                         size="full"
                         loading={loading}
