@@ -2,6 +2,7 @@ import CreateExchangeCard from './_components/CreateExchangeCard'
 import ExchangeDetailCard from './_components/ExchangeDetailCard'
 import SupabaseServer from '@/lib/supabase/SupabaseServer'
 import { selectEventsWithParticipants } from '@/lib/selectEventWithParticipants'
+import { redirect } from 'next/navigation'
 
 async function getData() {
     const supabase = SupabaseServer()
@@ -11,6 +12,12 @@ async function getData() {
 
     if (!session) {
         return []
+    }
+
+    const { data: profile } = await supabase.from('profiles').select('*').eq('id', session.user.id).single()
+
+    if (profile && !profile.full_name) {
+        redirect('/onboarding')
     }
 
     const { data: events } = await selectEventsWithParticipants(supabase, session.user.id)

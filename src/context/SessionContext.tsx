@@ -15,6 +15,7 @@ export interface SessionContextType {
     session: Session | null
     supabase: SupabaseClient<Database>
     profile: Profile | undefined
+    setProfile: React.Dispatch<React.SetStateAction<Profile | undefined>>
     loading: boolean
     logout: () => Promise<void>
 }
@@ -108,6 +109,7 @@ export function SessionProvider({ children }: IContextProps) {
         supabase,
         profile,
         loading,
+        setProfile,
         logout: handleLogout
     }
 
