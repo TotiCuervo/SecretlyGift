@@ -12,8 +12,7 @@ import { twMerge } from 'tailwind-merge'
 import { createEvent } from '@/endpoints/event/createEvent'
 import { StatusMessage } from '@/types/StatusMessage'
 import ErrorAlert from '../alert/error-alert'
-import { EventManageRoute } from '@/lib/routes/events/event-edit-route'
-import { useRouter } from 'next/navigation'
+import useRouter from '@/lib/router/useRouter'
 
 export interface FormData {
     eventName: string
@@ -33,7 +32,7 @@ const schema = z.object({
 })
 
 export default function CreateEventModal({ setIsOpen, ...props }: ModalProps) {
-    const router = useRouter()
+    const { goToEventManage } = useRouter()
 
     const {
         handleSubmit,
@@ -65,7 +64,7 @@ export default function CreateEventModal({ setIsOpen, ...props }: ModalProps) {
             date: eventDate.toLocaleDateString()
         })
             .then((res) => {
-                router.push(EventManageRoute(res.data.uuid))
+                goToEventManage(res.data.uuid)
             })
             .catch(() => {
                 setStatus({

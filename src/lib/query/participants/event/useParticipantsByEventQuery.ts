@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { ParticipantKeys } from '../keys'
-import SupabaseClient from '@/lib/supabase/SupabaseClient'
+import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 import { ParticipantWithProfile } from '@/types/ParticipantWithProfile'
 
 export default function useParticipantWithProfileByEventQuery(event: ParticipantWithProfile['event']) {

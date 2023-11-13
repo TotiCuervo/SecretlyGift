@@ -1,27 +1,23 @@
 import CreateExchangeCard from './_components/CreateExchangeCard'
 import ExchangeDetailCard from './_components/ExchangeDetailCard'
-import SupabaseServer from '@/lib/supabase/SupabaseServer'
-import { selectEventsWithParticipants } from '@/lib/selectEventWithParticipants'
+import SupabaseServer from '@/lib/supabase/handlers/SupabaseServer'
+import { fetchDashboardEvents } from '@/lib/supabase/api/events/fetch/fetchDashboardEvents'
 import { redirect } from 'next/navigation'
+import fetchProfile from '@/lib/supabase/api/profiles/fetch/fetchProfile'
+import { Profile } from '@/types/Profile'
+import getSessionOrRedirect from '@/lib/supabase/api/auth/getSessionOrRedirect'
 
 async function getData() {
     const supabase = SupabaseServer()
-    const {
-        data: { session }
-    } = await supabase.auth.getSession()
+    const session = await getSessionOrRedirect()
 
-    if (!session) {
-        return []
-    }
-
-    const { data: profile } = await supabase.from('profiles').select('*').eq('id', session.user.id).single()
+    const { data: profile } = (await fetchProfile(supabase, session.user.id)) as { data: Profile }
 
     if (profile && !profile.full_name) {
         redirect('/onboarding')
     }
 
-    const { data: events } = await selectEventsWithParticipants(supabase, session.user.id)
-
+    const { data: events, error } = await fetchDashboardEvents(supabase, session.user.id)
     return events
 }
 
@@ -30,7 +26,7 @@ export default async function DashboardPage() {
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             {data.map((event, index) => (
-                <ExchangeDetailCard key={index} />
+                <ExchangeDetailCard key={index} event={event} />
             ))}
             <CreateExchangeCard />
         </div>

@@ -1,7 +1,7 @@
 import { UseBaseQueryOptions, useQuery } from '@tanstack/react-query'
 import { EventKeys } from '../keys'
 import { Profile } from '@/types/Profile'
-import SupabaseClient from '@/lib/supabase/SupabaseClient'
+import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 import { Event } from '@/types/events/Event'
 
 type Options = Omit<UseBaseQueryOptions<Event[]>, 'queryKey'>

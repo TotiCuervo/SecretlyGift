@@ -1,5 +1,5 @@
 import { Profile as ProfileSelect } from '@/lib/select/Profile'
-import SupabaseAdmin from '@/lib/supabase/SupabaseAdmin'
+import SupabaseAdmin from '@/lib/supabase/handlers/SupabaseAdmin'
 import { Event } from '@/types/events/Event'
 import { EventInsert } from '@/types/events/EventInsert'
 import { Profile } from '@/types/Profile'

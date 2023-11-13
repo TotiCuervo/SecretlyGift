@@ -18,7 +18,6 @@ const config: Config = {
             },
             colors: {
                 background: 'rgb(241, 239, 238)',
-                // background: 'rgb(248, 249, 250)',
                 white: 'rgb(255, 255, 255)',
                 primary: {
                     '50': '#fef3f2',

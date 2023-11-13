@@ -3,7 +3,7 @@ import ErrorAlert from '@/components/alert/error-alert'
 import PrimaryButton from '@/components/buttons/primary-button'
 import TextInput from '@/components/inputs/text-input'
 import { useSessionContext } from '@/context/SessionContext'
-import SupabaseClient from '@/lib/supabase/SupabaseClient'
+import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 import { StatusMessage } from '@/types/StatusMessage'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -19,7 +19,7 @@ const schema = z.object({
     full_name: z.string().min(3, { message: 'Name needs to be more than 2 characters' })
 })
 
-export default function page() {
+export default function Page() {
     const supabase = SupabaseClient()
 
     const router = useRouter()
