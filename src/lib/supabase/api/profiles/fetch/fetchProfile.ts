@@ -1,5 +1,5 @@
 import { Profile as ProfileSelect } from '@/lib/select/Profile'
-import { Profile } from '@/types/Profile'
+import { Profile } from '@/types/profile/Profile'
 import { Database } from '@/types/schema'
 import { PostgrestMaybeSingleResponse, PostgrestSingleResponse, SupabaseClient } from '@supabase/supabase-js'
 

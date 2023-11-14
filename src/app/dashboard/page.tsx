@@ -4,7 +4,7 @@ import SupabaseServer from '@/lib/supabase/handlers/SupabaseServer'
 import { fetchDashboardEvents } from '@/lib/supabase/api/events/fetch/fetchDashboardEvents'
 import { redirect } from 'next/navigation'
 import fetchProfile from '@/lib/supabase/api/profiles/fetch/fetchProfile'
-import { Profile } from '@/types/Profile'
+import { Profile } from '@/types/profile/Profile'
 import getSessionOrRedirect from '@/lib/supabase/api/auth/getSessionOrRedirect'
 
 async function getData() {

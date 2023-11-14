@@ -18,9 +18,9 @@ interface IProps {
 export default function GlobalLayout({ children, additionalClasses }: IProps) {
     return (
         <html lang="en" className={twMerge(`${myFont.variable}`, additionalClasses ? additionalClasses : null)}>
-            {/* <Head>
+            <Head>
                 <link rel="icon" href="/icon" type="image/<generated>" sizes="<generated>" />
-            </Head> */}
+            </Head>
             <Providers>
                 <body>{children}</body>
             </Providers>

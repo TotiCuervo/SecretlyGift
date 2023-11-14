@@ -1,4 +1,4 @@
-import { ParticipantWithProfile } from '@/types/ParticipantWithProfile'
+import { ParticipantWithProfile } from '@/types/participant/ParticipantWithProfile'
 import React from 'react'
 
 interface IProps {
@@ -7,7 +7,7 @@ interface IProps {
 
 export default function ParticipantImagePreview({ participants }: IProps) {
     return (
-        <>
+        <div className="flex">
             {participants.map((member, index) => (
                 <div
                     key={index}
@@ -16,6 +16,6 @@ export default function ParticipantImagePreview({ participants }: IProps) {
                     <p className="text-base text-gray-600"></p>
                 </div>
             ))}
-        </>
+        </div>
     )
 }

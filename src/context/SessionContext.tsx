@@ -4,7 +4,7 @@ import React, { useContext, ReactNode, useState, useEffect, useCallback } from '
 import { Session, SupabaseClient } from '@supabase/supabase-js'
 import { Database } from '@/types/schema'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Profile } from '@/types/Profile'
+import { Profile } from '@/types/profile/Profile'
 import { useRouter } from 'next/navigation'
 
 interface IContextProps {

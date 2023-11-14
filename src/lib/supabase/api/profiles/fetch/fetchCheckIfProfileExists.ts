@@ -1,4 +1,4 @@
-import { Profile } from '@/types/Profile'
+import { Profile } from '@/types/profile/Profile'
 import { Database } from '@/types/schema'
 import { SupabaseClient } from '@supabase/supabase-js'
 

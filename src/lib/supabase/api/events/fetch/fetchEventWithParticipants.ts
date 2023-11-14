@@ -3,7 +3,7 @@ import { SupabaseClient } from '@supabase/supabase-js'
 import { Event } from '@/types/events/Event'
 import { EventWithParticipantsSelect } from '../select/event-with-participants-select'
 
-export async function fetchEventPreview(supabase: SupabaseClient, EventUuid: Event['uuid']) {
+export async function fetchEventWithParticipants(supabase: SupabaseClient, EventUuid: Event['uuid']) {
     const { data, error } = (await supabase
         .from('event')
         .select(EventWithParticipantsSelect)

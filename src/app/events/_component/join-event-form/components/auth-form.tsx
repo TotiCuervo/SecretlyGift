@@ -8,12 +8,14 @@ import { UseFormReturn } from 'react-hook-form'
 import Header from './header'
 import { FormData, FormState } from '../join-event-form'
 import { useSessionContext } from '@/context/SessionContext'
+import { EventWithParticipants } from '@/types/events/EventWithParticipants'
 
 interface IProps {
     setState: React.Dispatch<React.SetStateAction<FormState>>
     form: UseFormReturn<FormData, any, undefined>
+    event: EventWithParticipants
 }
-export default function AuthForm({ form, setState }: IProps) {
+export default function AuthForm({ form, setState, event }: IProps) {
     const supabase = SupabaseClient()
     const { profile } = useSessionContext()
 
@@ -38,6 +40,7 @@ export default function AuthForm({ form, setState }: IProps) {
             <Header
                 title={`Hi there ${profile?.full_name}!`}
                 subtitle="You can customize the name for this event if you'd like. "
+                event={event}
             />
             <div className="flex flex-col gap-4">
                 <Controller
