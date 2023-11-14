@@ -32,8 +32,6 @@ async function getData(eventUUID: Event['uuid']) {
         participants.some((participant) => participant.profiles.id === session.user.id && participant.is_admin) ||
         event.created_by === session.user.id
 
-    console.log({ isUserParticipant })
-
     if (!isUserParticipant) redirect(dashboardRoute())
 
     return { event, participants }
