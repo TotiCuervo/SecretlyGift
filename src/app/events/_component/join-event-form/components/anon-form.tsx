@@ -13,7 +13,6 @@ import { StatusMessage } from '@/types/StatusMessage'
 import ErrorAlert from '@/components/alert/error-alert'
 import signInWithOtp from '@/lib/supabase/api/auth/signInWithOtp'
 import fetchCheckIfProfileExists from '@/lib/supabase/api/profiles/fetch/fetchCheckIfProfileExists'
-import useEventWithParticipantsUUIDQueryInvalidation from '@/lib/query/eventWithParticipants/uuid/useEventWithParticipantsUUIDQueryInvalidation'
 
 interface IProps {
     setState: React.Dispatch<React.SetStateAction<FormState>>
@@ -22,7 +21,6 @@ interface IProps {
 }
 export default function AnonForm({ form, setState, event }: IProps) {
     const supabase = SupabaseClient()
-    const invalidate = useEventWithParticipantsUUIDQueryInvalidation()
 
     const [statusMessage, setStatusMessage] = useState<StatusMessage>()
 
@@ -57,7 +55,6 @@ export default function AnonForm({ form, setState, event }: IProps) {
             try {
                 await signInWithOtp(supabase, { email })
                 setState('AnonConfirmation')
-                invalidate(event.uuid)
             } catch {
                 handleError()
             }
@@ -72,8 +69,6 @@ export default function AnonForm({ form, setState, event }: IProps) {
             message: 'Something went wrong. Please try again.'
         })
     }
-    invalidate(event.uuid)
-
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Header title="Join the party!" subtitle="Sign up to join to the gift exchange." event={event} />

@@ -1,15 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import EventCard from './event-card'
-import { EventWithParticipants } from '@/types/events/EventWithParticipants'
 import useWindowSize from 'react-use/lib/useWindowSize'
 
 interface IProps {
-    event: EventWithParticipants
+    children: React.ReactNode
 }
 
-export default function EventCardTransition({ event }: IProps) {
+export default function EventCardTransition({ children }: IProps) {
     const { width: windowWidth } = useWindowSize()
 
     const [width, setWidth] = useState<number>()
@@ -22,8 +20,9 @@ export default function EventCardTransition({ event }: IProps) {
             animate={{ x: [width, 0], rotate: [50, 0], opacity: 1 }}
             initial={{ x: width, rotate: 50, opacity: 0 }}
             transition={{ duration: 1.5, type: 'spring', bounce: 0.25 }}
+            className="flex w-full items-center justify-center"
         >
-            <EventCard event={event} />
+            {children}
         </motion.div>
     )
 }

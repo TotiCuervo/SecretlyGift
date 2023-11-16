@@ -1,6 +1,7 @@
 'use client'
 import Badge from '@/components/badge/badge'
 import PrimaryButton from '@/components/buttons/primary-button'
+import ParticipantImagePreview from '@/components/misc/participant-image-preview'
 import useRouter from '@/lib/router/useRouter'
 import { EventWithParticipants } from '@/types/events/EventWithParticipants'
 import getDateString from '@/utils/getDateString'
@@ -37,19 +38,7 @@ export default function ExchangeDetailCard({ event }: IProps) {
                     {event.participant.length} participant{event.participant.length >= 1 ? '' : 's'}
                 </p>
                 <div className="mt-4 flex items-center justify-center">
-                    {event.participant.map((member, index) => (
-                        <div
-                            key={index}
-                            className="z-10 -ml-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-200"
-                        >
-                            <p className="text-base text-gray-600"></p>
-                        </div>
-                    ))}
-                    {additionalMembersCount > 0 && (
-                        <div className="z-10 -ml-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-200">
-                            <p className="text-base text-gray-600">+{additionalMembersCount}</p>
-                        </div>
-                    )}
+                    <ParticipantImagePreview participants={event.participant} size={4} />
                 </div>
             </div>
             <div className="mt-4 h-10 w-full">

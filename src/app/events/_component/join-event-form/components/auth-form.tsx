@@ -2,13 +2,16 @@
 import PrimaryButton from '@/components/buttons/primary-button'
 import Controller from '@/components/forms/controller'
 import TextInput from '@/components/inputs/text-input'
-import fetchCheckIfProfileExists from '@/lib/supabase/api/profiles/fetch/fetchCheckIfProfileExists'
 import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 import { UseFormReturn } from 'react-hook-form'
 import Header from './header'
 import { FormData, FormState } from '../join-event-form'
 import { useSessionContext } from '@/context/SessionContext'
 import { EventWithParticipants } from '@/types/events/EventWithParticipants'
+import { joinEvent } from '@/endpoints/event/join-event'
+import { useState } from 'react'
+import { StatusMessage } from '@/types/StatusMessage'
+import StatusAlert from '@/components/alert/status-alert'
 
 interface IProps {
     setState: React.Dispatch<React.SetStateAction<FormState>>
@@ -16,22 +19,29 @@ interface IProps {
     event: EventWithParticipants
 }
 export default function AuthForm({ form, setState, event }: IProps) {
-    const supabase = SupabaseClient()
     const { profile } = useSessionContext()
+    const [status, setStatus] = useState<StatusMessage>()
 
     const {
         control,
         handleSubmit,
-        formState: { errors }
+        formState: { errors, isSubmitting }
     } = form
 
     async function onSubmit(data: FormData) {
-        const { name, email } = data
+        const { name } = data
 
-        const { count, error } = await fetchCheckIfProfileExists(supabase, email)
+        try {
+            const res = await joinEvent({
+                event: event.uuid,
+                name
+            })
 
-        if (count !== 0) {
-            setState('UserExists')
+            if (res.status === 200) {
+                setState('AuthConfirmation')
+            }
+        } catch (error) {
+            setStatus({ type: 'error', message: 'Sorry something went wrong. Please try again later.' })
         }
     }
 
@@ -52,8 +62,11 @@ export default function AuthForm({ form, setState, event }: IProps) {
                 />
 
                 <div>
-                    <PrimaryButton>Join event</PrimaryButton>
+                    <PrimaryButton loading={isSubmitting} loadingText="Joining...">
+                        Join event
+                    </PrimaryButton>
                 </div>
+                {status && <StatusAlert status={status} />}
             </div>
         </form>
     )

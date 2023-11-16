@@ -31,6 +31,7 @@ export default function BaseButton({
                 size === 'full' && 'h-full w-full text-base',
                 customClasses
             )}
+            disabled={loading}
         >
             {loading ? (
                 <div className="flex items-center justify-center">

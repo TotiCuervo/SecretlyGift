@@ -38,6 +38,8 @@ export function SessionProvider({ children }: IContextProps) {
     useEffect(() => {
         if (session?.user) {
             getProfile()
+        } else {
+            setProfile(undefined)
         }
     }, [supabase, session])
 

@@ -9,6 +9,8 @@ import { useSessionContext } from '@/context/SessionContext'
 import AuthForm from './components/auth-form'
 import { EventWithParticipants } from '@/types/events/EventWithParticipants'
 import AnonConfirmation from './components/anon-confirmation'
+import AlreadyInEvent from './components/already-in-event'
+import AuthConfirmation from './components/auth-confirmation'
 
 export interface FormData {
     name: string
@@ -19,7 +21,13 @@ interface IProps {
     event: EventWithParticipants
 }
 
-export type FormState = 'Form' | 'UserExists' | 'AuthenticatedForm' | 'AnonConfirmation'
+export type FormState =
+    | 'Form'
+    | 'UserExists'
+    | 'AuthenticatedForm'
+    | 'AnonConfirmation'
+    | 'AlreadyInEvent'
+    | 'AuthConfirmation'
 
 const schema = z.object({
     name: z.string().min(1, 'Name is required'),
@@ -35,19 +43,35 @@ export default function JoinEventForm({ event }: IProps) {
     })
 
     useEffect(() => {
-        if (profile) {
-            setState('AuthenticatedForm')
-            form.setValue('name', profile.full_name!)
-            form.setValue('email', profile.email)
+        if (!profile) {
+            setState('Form')
+            return
         }
+
+        if (event.participant.find((participant) => participant.profile.id === profile.id)) {
+            setState('AlreadyInEvent')
+            return
+        }
+
+        form.setValue('name', profile.full_name!)
+        form.setValue('email', profile.email)
+        setState('AuthenticatedForm')
     }, [profile])
+
+    if (state === 'AlreadyInEvent') {
+        return <AlreadyInEvent event={event} />
+    }
+
+    if (state === 'AuthConfirmation') {
+        return <AuthConfirmation form={form} event={event} />
+    }
 
     if (state === 'AnonConfirmation') {
         return <AnonConfirmation form={form} event={event} />
     }
 
     if (state === 'UserExists') {
-        return <UserExists setState={setState} event={event} />
+        return <UserExists setState={setState} event={event} form={form} />
     }
 
     if (state === 'AuthenticatedForm') {

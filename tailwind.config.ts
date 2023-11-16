@@ -14,10 +14,11 @@ const config: Config = {
                 'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
             },
             fontFamily: {
-                baloo: ['var(--font-baloo)']
+                baloo: ['var(--font-baloo)'],
+                display: ['var(--font-display)']
             },
             colors: {
-                background: 'rgb(241, 239, 238)',
+                background: 'rgb(249, 248, 247)',
                 white: 'rgb(255, 255, 255)',
                 primary: {
                     '50': '#fef3f2',
