@@ -26,7 +26,6 @@ export default function useEventWithParticipantUUIDQuery(uuid: Event['uuid'], op
     async function publicFetch(uuid: Event['uuid']) {
         try {
             const { data } = await publicGetEventWithParticipants(uuid)
-            console.log({ data })
             return data
         } catch (error) {
             throw error

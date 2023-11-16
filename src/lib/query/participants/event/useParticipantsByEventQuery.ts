@@ -4,7 +4,14 @@ import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 import { ParticipantWithProfile } from '@/types/participant/ParticipantWithProfile'
 import { ParticipantWithProfileSelect } from '@/lib/supabase/api/participants/select/ParticipantWithProfileSelect'
 
-export default function useParticipantWithProfileByEventQuery(event: ParticipantWithProfile['event']) {
+interface Options {
+    initialData?: ParticipantWithProfile[]
+}
+
+export default function useParticipantsWithProfileByEventQuery(
+    event: ParticipantWithProfile['event'],
+    options: Options = {}
+) {
     const supabase = SupabaseClient()
 
     async function fetch(event: ParticipantWithProfile['event']) {
@@ -12,10 +19,13 @@ export default function useParticipantWithProfileByEventQuery(event: Participant
             .from('participant')
             .select(ParticipantWithProfileSelect)
             .eq('event', event)
-
+        console.log('fetching...')
         if (error) {
             throw error
         }
+
+        console.log({ data })
+
         // @ts-ignore
         return data as ParticipantWithProfile[]
     }
@@ -23,6 +33,7 @@ export default function useParticipantWithProfileByEventQuery(event: Participant
     return useQuery<ParticipantWithProfile[]>({
         queryKey: ParticipantKeys.event(event),
         queryFn: () => fetch(event),
-        staleTime: 10000
+        staleTime: 10000,
+        ...options
     })
 }

@@ -1,6 +1,7 @@
 import { useSessionContext } from '@/context/SessionContext'
 import Dropdown from '../dropdown'
 import { UserIcon } from '@heroicons/react/24/solid'
+import UserAvatar from '@/components/avatar/user-avatar'
 
 export interface MenuItem {
     name: string
@@ -32,7 +33,7 @@ export default function ProfileDropdown() {
 
     return (
         <Dropdown menuItems={menuItems}>
-            <UserIcon className="h-12 w-12 rounded-full border bg-white p-2" />
+            <UserAvatar />
         </Dropdown>
     )
 }
