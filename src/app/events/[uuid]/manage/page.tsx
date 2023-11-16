@@ -29,7 +29,7 @@ async function getData(eventUUID: Event['uuid']) {
     }
 
     const isUserParticipant =
-        participants.some((participant) => participant.profiles.id === session.user.id && participant.is_admin) ||
+        participants.some((participant) => participant.profile.id === session.user.id && participant.is_admin) ||
         event.created_by === session.user.id
 
     if (!isUserParticipant) redirect(dashboardRoute())
