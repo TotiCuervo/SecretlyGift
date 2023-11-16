@@ -1,1 +1,1 @@
-export const ParticipantWithProfileSelect = '*, profiles!inner(*)'
+export const ParticipantWithProfileSelect = '*, profile!inner(*)'
