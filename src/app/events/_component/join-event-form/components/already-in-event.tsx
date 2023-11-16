@@ -28,7 +28,7 @@ export default function AlreadyInEvent({ event }: IProps) {
                 <Header
                     title={
                         <>
-                            You're in the party, <span className="text-primary-500">{profile?.full_name}!</span>
+                            You&apos;re in the party, <span className="text-primary-500">{profile?.full_name}!</span>
                         </>
                     }
                     subtitle="You are already in this event. Go to the event page to see the details, edit your event profile, and much more!"

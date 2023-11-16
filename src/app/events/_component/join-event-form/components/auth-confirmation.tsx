@@ -16,7 +16,7 @@ export default function AuthConfirmation({ form, event }: IProps) {
     return (
         <div className="flex flex-col gap-4">
             <h1 className="font-display text-4xl font-bold text-gray-800">
-                <span className=" text-primary-500">{name}!</span> You've been added to {event.name}!
+                <span className=" text-primary-500">{name}!</span> You have been added to {event.name}!
             </h1>
             <p className="text-lg text-gray-600">
                 Are you ready? Go to the event to get draw your name, edit your event profile, and more!

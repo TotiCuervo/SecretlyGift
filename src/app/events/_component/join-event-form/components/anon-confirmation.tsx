@@ -19,7 +19,7 @@ export default function AnonConfirmation({ form, event }: IProps) {
             </h1>
             <p className="pt-4 text-lg text-gray-600">
                 We have sent a confirmation email to <span className="font-bold text-primary-500">{email}</span>. If you
-                aren't ready to login yet, please login later as your email link may expire.
+                are not ready to login yet, please login later as your email link may expire.
             </p>
             {event && (
                 <div className="flex justify-center pt-4 sm:hidden">
