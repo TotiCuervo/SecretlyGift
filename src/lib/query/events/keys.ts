@@ -1,5 +1,5 @@
 import { Event } from '@/types/events/Event'
-import { Profile } from '@/types/Profile'
+import { Profile } from '@/types/profile/Profile'
 
 export const EventKeys = {
     uuid: (uuid: Event['uuid']) => ['event', uuid],

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { EventKeys } from '../keys'
 import { Event } from '@/types/events/Event'
-import SupabaseClient from '@/lib/supabase/SupabaseClient'
+import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 
 export default function useEventUUIDQuery(uuid: Event['uuid']) {
     const supabase = SupabaseClient()

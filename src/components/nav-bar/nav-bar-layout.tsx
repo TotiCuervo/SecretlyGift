@@ -1,5 +1,5 @@
 import { ElementType } from 'react'
-import SupabaseServer from '@/lib/supabase/SupabaseServer'
+import SupabaseServer from '@/lib/supabase/handlers/SupabaseServer'
 
 interface IProps {
     Navbar: ElementType

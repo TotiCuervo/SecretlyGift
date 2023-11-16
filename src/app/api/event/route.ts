@@ -1,4 +1,6 @@
-import SupabaseServer from '@/lib/supabase/SupabaseServer'
+import { fetchEventWithParticipants } from '@/lib/supabase/api/events/fetch/fetchEventWithParticipants'
+import SupabaseAdmin from '@/lib/supabase/handlers/SupabaseAdmin'
+import SupabaseServer from '@/lib/supabase/handlers/SupabaseServer'
 import { Event } from '@/types/events/Event'
 import { type NextRequest, NextResponse } from 'next/server'
 

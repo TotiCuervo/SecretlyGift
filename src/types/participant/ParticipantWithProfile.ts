@@ -1,6 +1,6 @@
 import { Participant } from './Participant'
-import { Profile } from './Profile'
+import { Profile } from '../profile/Profile'
 
 export interface ParticipantWithProfile extends Omit<Participant, 'profile'> {
-    profiles: Profile
+    profile: Profile
 }

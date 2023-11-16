@@ -1,7 +1,7 @@
 'use client'
 import PrimaryButton from '@/components/buttons/primary-button'
 import TextInput from '@/components/inputs/text-input'
-import SupabaseClient from '@/lib/supabase/SupabaseClient'
+import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'

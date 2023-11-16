@@ -1,4 +1,4 @@
-import SupabaseRouteHandler from '@/lib/supabase/SupabaseRouteHandler'
+import SupabaseRouteHandler from '@/lib/supabase/handlers/SupabaseRouteHandler'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {

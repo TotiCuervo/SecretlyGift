@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { ParticipantKeys } from '../keys'
-import SupabaseClient from '@/lib/supabase/SupabaseClient'
-import { ParticipantWithProfile } from '@/types/ParticipantWithProfile'
+import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
+import { ParticipantWithProfile } from '@/types/participant/ParticipantWithProfile'
+import { ParticipantWithProfileSelect } from '@/lib/supabase/api/participants/select/ParticipantWithProfileSelect'
 
 export default function useParticipantWithProfileByEventQuery(event: ParticipantWithProfile['event']) {
     const supabase = SupabaseClient()
@@ -9,13 +10,13 @@ export default function useParticipantWithProfileByEventQuery(event: Participant
     async function fetch(event: ParticipantWithProfile['event']) {
         const { data = [], error } = await supabase
             .from('participant')
-            .select('*, profiles!inner(*)')
+            .select(ParticipantWithProfileSelect)
             .eq('event', event)
 
         if (error) {
             throw error
         }
-
+        // @ts-ignore
         return data as ParticipantWithProfile[]
     }
 

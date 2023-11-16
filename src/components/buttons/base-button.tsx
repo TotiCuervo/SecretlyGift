@@ -28,9 +28,10 @@ export default function BaseButton({
                 size === 'lg' && 'px-5 py-3 text-base',
                 size === 'xl' && 'px-6 py-3.5 text-base',
                 size === '2xl' && 'px-7 py-4 text-lg',
-                size === 'full' && 'h-full w-full text-lg',
+                size === 'full' && 'h-full w-full text-base',
                 customClasses
             )}
+            disabled={loading}
         >
             {loading ? (
                 <div className="flex items-center justify-center">
