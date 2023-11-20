@@ -1,4 +1,4 @@
-import GhostButton from '@/components/buttons/ghost-button'
+import GhostButton from '@/components/buttons/primary-ghost-button'
 import { Datepicker } from '@aliakbarazizi/headless-datepicker'
 import React, { ElementType } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -8,12 +8,18 @@ interface InputProps {
     onBlur: (value: Date | null) => void
     value: Date
     ref?: React.Ref<ElementType>
+    className?: string
 }
 
-export default function DatepickerPicker({ onChange, value, ...props }: InputProps) {
+export default function DatepickerPicker({
+    onChange,
+    value,
+    className = 'z-10 rounded-md bg-white p-4 shadow-md',
+    ...props
+}: InputProps) {
     return (
         <Datepicker onChange={onChange} value={value} {...props}>
-            <Datepicker.Picker alwaysOpen defaultType="day" className="z-10 rounded-md bg-white p-4 shadow-md">
+            <Datepicker.Picker alwaysOpen defaultType="day" className={className}>
                 {({ monthName, hour, minute, year }) => (
                     <>
                         <div className="flex w-full items-center justify-between space-x-6 py-2 rtl:space-x-reverse">

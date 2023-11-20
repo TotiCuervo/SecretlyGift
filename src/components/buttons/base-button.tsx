@@ -23,7 +23,7 @@ export default function BaseButton({
             {...props}
             className={twMerge(
                 'rounded-lg text-center font-medium transition duration-200 ease-in-out focus:outline-none focus:ring-4',
-                size === 'sm' && 'px-3 py-2 text-sm',
+                size === 'sm' && 'px-4 py-2 text-xs',
                 size === 'md' && 'px-5 py-2.5 text-sm',
                 size === 'lg' && 'px-5 py-3 text-base',
                 size === 'xl' && 'px-6 py-3.5 text-base',
@@ -46,7 +46,7 @@ export default function BaseButton({
                     {loadingText && <span>{loadingText}</span>}
                 </div>
             ) : (
-                children
+                <div className="flex items-center justify-center gap-2">{children}</div>
             )}
         </button>
     )
