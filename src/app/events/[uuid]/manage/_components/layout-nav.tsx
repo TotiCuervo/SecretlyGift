@@ -36,9 +36,8 @@ export default function LayoutNav({ uuid }: IProps) {
     return (
         <button className="flex gap-6">
             {paths.map((path) => (
-                <Link href={path.route}>
+                <Link href={path.route} key={path.route}>
                     <p
-                        key={path.route}
                         className={twMerge(
                             'border-b-2 px-2 pb-2 font-semibold',
                             pathname === path.route
