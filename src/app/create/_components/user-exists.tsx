@@ -1,5 +1,5 @@
 'use client'
-import GhostButton from '@/components/buttons/ghost-button'
+import GhostButton from '@/components/buttons/primary-ghost-button'
 import PrimaryButton from '@/components/buttons/primary-button'
 import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 import React, { useState } from 'react'

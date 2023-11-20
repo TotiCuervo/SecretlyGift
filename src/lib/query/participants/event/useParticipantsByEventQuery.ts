@@ -19,12 +19,9 @@ export default function useParticipantsWithProfileByEventQuery(
             .from('participant')
             .select(ParticipantWithProfileSelect)
             .eq('event', event)
-        console.log('fetching...')
         if (error) {
             throw error
         }
-
-        console.log({ data })
 
         // @ts-ignore
         return data as ParticipantWithProfile[]

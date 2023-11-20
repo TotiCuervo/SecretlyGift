@@ -3,7 +3,11 @@ import { EventKeys } from '../keys'
 import { Event } from '@/types/events/Event'
 import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
 
-export default function useEventUUIDQuery(uuid: Event['uuid']) {
+interface Options {
+    initialData?: Event
+}
+
+export default function useEventUUIDQuery(uuid: Event['uuid'], options: Options = {}) {
     const supabase = SupabaseClient()
 
     async function fetch(uuid: Event['uuid']) {
@@ -19,6 +23,7 @@ export default function useEventUUIDQuery(uuid: Event['uuid']) {
     return useQuery<Event>({
         queryKey: EventKeys.uuid(uuid),
         queryFn: () => fetch(uuid),
-        staleTime: 10000
+        staleTime: 1000,
+        ...options
     })
 }

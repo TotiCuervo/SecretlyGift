@@ -1,5 +1,5 @@
 'use client'
-import GhostButton from '@/components/buttons/ghost-button'
+import GhostButton from '@/components/buttons/primary-ghost-button'
 import PrimaryButton from '@/components/buttons/primary-button'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import React, { FormEventHandler } from 'react'

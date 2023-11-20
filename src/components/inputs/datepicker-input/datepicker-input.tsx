@@ -1,8 +1,7 @@
 import InputLabel from '@/components/inputs/input-label'
 import { Datepicker } from '@aliakbarazizi/headless-datepicker'
-import React, { useState } from 'react'
+import React from 'react'
 import { twMerge } from 'tailwind-merge'
-
 interface InputProps {
     onChange: (value: Date | null) => void
     onBlur: (value: Date | null) => void
@@ -13,11 +12,12 @@ interface InputProps {
     error?: string
 }
 
-export default function DatepickerInput({ error, title, onChange, value, ...props }: InputProps) {
+export default function DatepickerInput({ error, title, onChange, onBlur, value, ...props }: InputProps) {
     return (
         <div>
             <InputLabel error={Boolean(error)}>{title}</InputLabel>
-            <div className="flex items-center">
+
+            <div className=" flex items-center">
                 <Datepicker onChange={onChange} value={value}>
                     <Datepicker.Input
                         format="EEEE, MMMM dd, yyyy"

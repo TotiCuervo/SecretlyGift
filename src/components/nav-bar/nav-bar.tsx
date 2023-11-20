@@ -5,7 +5,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import PrimaryOutlineButton from '@/components/buttons/primary-outline-button'
 import ProfileDropdown from '../dropdown/profile/profile-dropdown'
-import GhostButton from '../buttons/ghost-button'
+import GhostButton from '../buttons/primary-ghost-button'
 import MobileProfileDropdown from '../dropdown/profile/mobile-profile-dropdown'
 
 interface IProps {

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import Header from './header'
-import GhostButton from '@/components/buttons/ghost-button'
+import GhostButton from '@/components/buttons/primary-ghost-button'
 import { FormData, FormState } from '../join-event-form'
 import { EventWithParticipants } from '@/types/events/EventWithParticipants'
 import SupabaseClient from '@/lib/supabase/handlers/SupabaseClient'
