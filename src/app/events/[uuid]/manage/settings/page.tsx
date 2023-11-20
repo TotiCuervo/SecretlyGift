@@ -24,6 +24,8 @@ interface IProps {
 interface FormData {
     name: string
     date: Date
+    gift_amount: number | null
+    description: string | null
 }
 
 const schema = z.object({
@@ -35,7 +37,9 @@ const schema = z.object({
             return val >= today
         },
         { message: 'Event date must not be in the past' }
-    )
+    ),
+    gift_amount: z.number().int().min(0, { message: 'Gift amount must be a positive number' }).optional(),
+    description: z.string().min(3, { message: 'Description needs to be more than 3 characters' }).optional()
 })
 
 export default function Page({ params }: IProps) {
@@ -55,7 +59,9 @@ export default function Page({ params }: IProps) {
         resolver: zodResolver(schema),
         defaultValues: {
             name: event?.name,
-            date: event?.date ? new Date(event.date) : new Date()
+            date: event?.date ? new Date(event.date) : new Date(),
+            gift_amount: event?.gift_amount,
+            description: event?.description
         }
     })
 
@@ -102,6 +108,32 @@ export default function Page({ params }: IProps) {
                             {...field}
                             error={fieldState?.error?.message}
                             key={'date'}
+                        />
+                    )}
+                />
+                <Controller
+                    name="description"
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field, fieldState }) => (
+                        <TextInput
+                            title={'Description'}
+                            {...field}
+                            error={fieldState?.error?.message}
+                            key={'description'}
+                        />
+                    )}
+                />
+                <Controller
+                    name="gift_amount"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field, fieldState }) => (
+                        <TextInput
+                            title={'Gift limit'}
+                            {...field}
+                            error={fieldState?.error?.message}
+                            key={'gift_amount'}
                         />
                     )}
                 />

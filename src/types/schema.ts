@@ -14,6 +14,8 @@ export interface Database {
           created_at: string
           created_by: string
           date: string
+          description: string | null
+          gift_amount: number | null
           id: number
           name: string
           uuid: string
@@ -22,6 +24,8 @@ export interface Database {
           created_at?: string
           created_by?: string
           date: string
+          description?: string | null
+          gift_amount?: number | null
           id?: number
           name: string
           uuid?: string
@@ -30,6 +34,8 @@ export interface Database {
           created_at?: string
           created_by?: string
           date?: string
+          description?: string | null
+          gift_amount?: number | null
           id?: number
           name?: string
           uuid?: string
