@@ -14,6 +14,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import TextArea from '@/components/inputs/text-area'
 
 interface IProps {
     params: {
@@ -38,8 +39,8 @@ const schema = z.object({
         },
         { message: 'Event date must not be in the past' }
     ),
-    gift_amount: z.number().int().min(0, { message: 'Gift amount must be a positive number' }).optional(),
-    description: z.string().min(3, { message: 'Description needs to be more than 3 characters' }).optional()
+    gift_amount: z.number().int().min(0, { message: 'Gift amount must be a positive number' }).optional().nullable(),
+    description: z.string().min(3, { message: 'Description needs to be more than 3 characters' }).optional().nullable()
 })
 
 export default function Page({ params }: IProps) {
@@ -112,19 +113,6 @@ export default function Page({ params }: IProps) {
                     )}
                 />
                 <Controller
-                    name="description"
-                    control={control}
-                    rules={{ required: false }}
-                    render={({ field, fieldState }) => (
-                        <TextInput
-                            title={'Description'}
-                            {...field}
-                            error={fieldState?.error?.message}
-                            key={'description'}
-                        />
-                    )}
-                />
-                <Controller
                     name="gift_amount"
                     control={control}
                     rules={{ required: true }}
@@ -134,6 +122,19 @@ export default function Page({ params }: IProps) {
                             {...field}
                             error={fieldState?.error?.message}
                             key={'gift_amount'}
+                        />
+                    )}
+                />
+                <Controller
+                    name="description"
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field, fieldState }) => (
+                        <TextArea
+                            title={'Description'}
+                            {...field}
+                            error={fieldState?.error?.message}
+                            key={'description'}
                         />
                     )}
                 />
