@@ -4,6 +4,7 @@ import { publicEventRoute } from '@/lib/router/routes/events/public-event-route'
 import { Event } from '@/types/events/Event'
 import { ClipboardIcon } from '@heroicons/react/24/solid'
 import React from 'react'
+import { toast } from 'sonner'
 
 interface IProps {
     event: Event['uuid']
@@ -12,6 +13,7 @@ interface IProps {
 export default function InviteLinkButton({ event }: IProps) {
     function copyLink() {
         navigator.clipboard.writeText(`${location.origin}${publicEventRoute(event)}`)
+        toast.success('Copied link to clipboard')
     }
 
     return (

@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import TextArea from '@/components/inputs/text-area'
+import MoneyInput from '@/components/inputs/money-input'
 
 interface IProps {
     params: {
@@ -39,8 +40,19 @@ const schema = z.object({
         },
         { message: 'Event date must not be in the past' }
     ),
-    gift_amount: z.number().int().min(0, { message: 'Gift amount must be a positive number' }).optional().nullable(),
-    description: z.string().min(3, { message: 'Description needs to be more than 3 characters' }).optional().nullable()
+    gift_amount: z.coerce
+        .number()
+        .int()
+        .min(0, { message: 'Gift amount must be a positive number' })
+        .gte(0, { message: 'Gift amount must be a positive number' })
+        .optional()
+        .nullable(),
+    description: z
+        .string()
+        .min(3, { message: 'Description needs to be more than 3 characters' })
+        .max(500, { message: 'Description needs to be less than 500 characters' })
+        .optional()
+        .nullable()
 })
 
 export default function Page({ params }: IProps) {
@@ -71,8 +83,10 @@ export default function Page({ params }: IProps) {
 
         try {
             const updatedEvent = await updateEvent(uuid, {
+                date: data.date.toLocaleDateString(),
                 name: data.name,
-                date: data.date.toLocaleDateString()
+                gift_amount: data.gift_amount,
+                description: data.description
             })
 
             invalidate(uuid)
@@ -117,11 +131,14 @@ export default function Page({ params }: IProps) {
                     control={control}
                     rules={{ required: true }}
                     render={({ field, fieldState }) => (
-                        <TextInput
+                        <MoneyInput
                             title={'Gift limit'}
                             {...field}
                             error={fieldState?.error?.message}
                             key={'gift_amount'}
+                            onChange={(e) => {
+                                field.onChange(e.target.valueAsNumber)
+                            }}
                         />
                     )}
                 />
