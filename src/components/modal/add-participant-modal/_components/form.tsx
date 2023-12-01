@@ -1,27 +1,24 @@
-import React, { FormEventHandler, useEffect, useState } from 'react'
-import Modal, { ModalProps } from './modal'
+import React, { useEffect, useState } from 'react'
+import { ModalProps } from '../../modal'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import PrimaryButton from '../buttons/primary-button'
-import GhostButton from '../buttons/primary-ghost-button'
+import PrimaryButton from '../../../buttons/primary-button'
+import GhostButton from '../../../buttons/primary-ghost-button'
 import { StatusMessage } from '@/types/StatusMessage'
-import ErrorAlert from '../alert/error-alert'
-import Controller from '../forms/controller'
-import TextInput from '../inputs/text-input'
+import ErrorAlert from '../../../alert/error-alert'
+import Controller from '../../../forms/controller'
+import TextInput from '../../../inputs/text-input'
 import { inviteToEvent } from '@/endpoints/event/invite-to-event'
 import { Event } from '@/types/events/Event'
 import { AxiosError } from 'axios'
+import { AddedUser } from '../add-participant-modal'
+import useParticipantsByEventQueryInvalidation from '@/lib/query/participants/event/useParticipantsByEventQueryInvalidation'
 
 interface FormData {
     name: string
     email: string
-}
-
-interface IProps extends ModalProps {
-    onAddMultiple: () => void
-    event: Event['uuid']
 }
 
 const schema = z.object({
@@ -30,16 +27,79 @@ const schema = z.object({
 })
 
 interface FormProps {
-    onSubmit: FormEventHandler<HTMLFormElement>
-    status: StatusMessage | undefined
-    isSubmitting: boolean
-    onClose: () => void
-    control: any
+    isOpen: boolean
+    event: Event['uuid']
+    setIsOpen: (isOpen: boolean) => void
+    setStep: (step: 'Form' | 'Success') => void
+    setAddedUser: (user: AddedUser) => void
+    resetForm: boolean
+    setResetForm: (reset: boolean) => void
 }
 
-function Form({ onSubmit, status, isSubmitting, onClose, control }: FormProps) {
+export default function Form({ isOpen, setIsOpen, event, setStep, setAddedUser, resetForm, setResetForm }: FormProps) {
+    const {
+        handleSubmit,
+        control,
+        formState: { isSubmitting },
+        reset
+    } = useForm<FormData>({
+        resolver: zodResolver(schema)
+    })
+
+    const invalidate = useParticipantsByEventQueryInvalidation()
+
+    const [status, setStatus] = useState<StatusMessage>()
+
+    useEffect(() => {
+        if (isOpen) {
+            reset()
+        }
+    }, [isOpen])
+
+    useEffect(() => {
+        if (resetForm) {
+            reset()
+            setResetForm(false)
+        }
+    }, [resetForm])
+
+    function onClose() {
+        setIsOpen(false)
+    }
+
+    async function onSubmit(data: FormData) {
+        const { name, email } = data
+
+        try {
+            const res = await inviteToEvent({
+                name,
+                email,
+                event
+            })
+            if (res.status === 200) {
+                setAddedUser({ name, email })
+                invalidate(event)
+                setStep('Success')
+            }
+        } catch (err: any) {
+            const axiosError = err as AxiosError<any>
+
+            if (axiosError.response?.status === 500 && axiosError.response?.data?.error) {
+                return setStatus({
+                    type: 'error',
+                    message: axiosError.response.data.error
+                })
+            }
+
+            setStatus({
+                type: 'error',
+                message: "Something went wrong, we couldn't add that person. Please try again."
+            })
+        }
+    }
+
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div className="px-6 pt-6 text-center">
                 <h3 className="text-lg font-medium leading-6 text-gray-900">Add a Participant</h3>
                 <div className="px-7 py-3">
@@ -111,84 +171,5 @@ function Form({ onSubmit, status, isSubmitting, onClose, control }: FormProps) {
                 </div>
             </div>
         </form>
-    )
-}
-
-function Success() {
-    return (
-        <div className="flex flex-col gap-2 p-6">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">Success!</h3>
-            <div className="px-7 py-3">
-                <p className="text-sm text-gray-500">
-                    We've sent an email to the person you added. They'll need to confirm their email before they can
-                    join the event.
-                </p>
-            </div>
-        </div>
-    )
-}
-
-export default function AddParticipantModal({ setIsOpen, onAddMultiple, event, ...props }: IProps) {
-    const {
-        handleSubmit,
-        control,
-        formState: { isSubmitting },
-        reset
-    } = useForm<FormData>({
-        resolver: zodResolver(schema)
-    })
-
-    const [status, setStatus] = useState<StatusMessage>()
-
-    useEffect(() => {
-        if (props.isOpen) {
-            reset()
-        }
-    }, [props.isOpen])
-
-    function onClose() {
-        setIsOpen(false)
-    }
-
-    async function onSubmit(data: FormData) {
-        const { name, email } = data
-
-        try {
-            const res = await inviteToEvent({
-                name,
-                email,
-                event
-            })
-            if (res.status === 200) {
-                // setState('AuthConfirmation')
-            }
-        } catch (err: any) {
-            const axiosError = err as AxiosError<any>
-
-            if (axiosError.response?.status === 500 && axiosError.response?.data?.error) {
-                return setStatus({
-                    type: 'error',
-                    message: axiosError.response.data.error
-                })
-            }
-
-            setStatus({
-                type: 'error',
-                message: "Something went wrong, we couldn't add that person. Please try again."
-            })
-        }
-    }
-
-    return (
-        <Modal setIsOpen={setIsOpen} {...props} containerPadding="p-0">
-            {/* <Form
-                onSubmit={handleSubmit(onSubmit)}
-                status={status}
-                isSubmitting={isSubmitting}
-                onClose={onClose}
-                control={control}
-            /> */}
-            <Success />
-        </Modal>
     )
 }

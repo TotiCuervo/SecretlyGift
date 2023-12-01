@@ -3,7 +3,7 @@ import { Event } from '@/types/events/Event'
 import React, { useState } from 'react'
 import PrimaryButton from '@/components/buttons/primary-button'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
-import AddParticipantModal from '@/components/modal/add-participant-modal'
+import AddParticipantModal from '@/components/modal/add-participant-modal/add-participant-modal'
 import AddParticipantsSlideover from '@/components/slide-over/add-participants-slideover'
 
 interface IProps {
