@@ -2,11 +2,11 @@ import { Event } from '@/types/events/Event'
 import React from 'react'
 import { Metadata } from 'next'
 import { fetchEventWithParticipants } from '@/lib/supabase/api/events/fetch/fetchEventWithParticipants'
-import JoinEventForm from '../_component/join-event-form/join-event-form'
+import JoinEventForm from '../../_component/join-event-form/join-event-form'
 import { redirect } from 'next/navigation'
 import SupabaseAdmin from '@/lib/supabase/handlers/SupabaseAdmin'
-import EventCardTransition from '../_component/event-card-transition'
-import EventCard from '../_component/event-card'
+import EventCardTransition from '../../_component/event-card-transition'
+import EventCard from '../../_component/event-card'
 interface IProps {
     params: {
         uuid: string

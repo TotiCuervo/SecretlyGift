@@ -1,37 +1,25 @@
 import { SendGridClient } from '../_shared/SendGridClient.ts'
+import { publicEventRoute } from '../_shared/routes/public-event-route.ts'
 
-console.log('Hello from Functions!')
+const NEXT_PUBLIC_URL = Deno.env.get('NEXT_PUBLIC_URL')
 
-const handler = async (_request: Request): Promise<Response> => {
+const handler = async (request: Request): Promise<Response> => {
+    const { to, name, invited_by, event_uuid, event_name, event_date } = await request.json()
     const sendGridClient = new SendGridClient()
     const res = await sendGridClient.sendEmail({
         type: 'Invite User To Event',
-        to: ['cuervor14@gmail.com'],
-        subject: 'You have been invited to an event!'
-    })
-    // Check if the request was successful
-    if (res.ok) {
-        return new Response('Email sent successfully', {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-    } else {
-        const errorData = await res.text() // Using .text() in case the response is not JSON-formatted
-        return new Response(errorData, {
-            status: res.status, // Reflect the actual status code from SendGrid
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-    }
-    return new Response('Email sent successfully', {
-        status: 200,
-        headers: {
-            'Content-Type': 'application/json'
+        to: [to],
+        subject: 'You have been invited to an event!',
+        templateData: {
+            name,
+            invited_by,
+            button_url: `${NEXT_PUBLIC_URL}${publicEventRoute(event_uuid)}`,
+            event_name,
+            event_date
         }
     })
+
+    return await sendGridClient.handleResponse(res)
 }
 
 // Start the server

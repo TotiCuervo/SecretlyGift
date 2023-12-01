@@ -1,8 +1,9 @@
+import { corsHeaders } from './cors.ts'
 interface SendEmailProps {
     type: EmailTemplateTypes
     to: string[]
     subject: string
-    templateData?: any
+    templateData?: Object
 }
 
 export type EmailTemplateTypes = 'Invite User To Event' | 'Magic Link'
@@ -23,11 +24,12 @@ export class SendGridClient {
         }
     }
 
-    async sendEmail({ type, to, subject, templateData }: SendEmailProps) {
+    async sendEmail({ type, to, subject, templateData = {} }: SendEmailProps) {
         const payload = {
             personalizations: [
                 {
-                    to: to.map((email) => ({ email }))
+                    to: to.map((email) => ({ email })),
+                    dynamic_template_data: templateData
                 }
             ],
             from: { email: 'secretlygift@gmail.com' },
@@ -39,11 +41,33 @@ export class SendGridClient {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${SENDGRID_API_KEY}`
+                Authorization: `Bearer ${SENDGRID_API_KEY}`,
+                ...corsHeaders
             },
             body: JSON.stringify(payload)
         })
 
         return res
+    }
+
+    async handleResponse(res: Response) {
+        if (res.ok) {
+            return new Response('Email sent successfully', {
+                status: 200,
+                headers: {
+                    ...corsHeaders,
+                    'Content-Type': 'application/json'
+                }
+            })
+        } else {
+            const errorData = await res.text() // Using .text() in case the response is not JSON-formatted
+            return new Response(errorData, {
+                status: res.status, // Reflect the actual status code from SendGrid
+                headers: {
+                    ...corsHeaders,
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
     }
 }

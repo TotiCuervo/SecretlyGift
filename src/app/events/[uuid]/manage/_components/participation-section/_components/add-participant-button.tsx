@@ -35,6 +35,7 @@ export default function AddParticipantButton({ event }: IProps) {
                     setIsModalOpen(false)
                     setIsSlideoverOpen(true)
                 }}
+                event={event}
             />
             <AddParticipantsSlideover isOpen={isSlideoverOpen} setIsOpen={setIsSlideoverOpen} />
         </>
