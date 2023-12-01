@@ -25,7 +25,7 @@ export default function EventHeader({ initialEvent, initialParticipants }: IProp
     })
 
     return (
-        <div className="">
+        <div className="flex flex-col gap-2">
             <div className="flex w-full items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                     <h1 className="truncate text-xl font-bold text-gray-900 sm:text-3xl">{event.name}</h1>
@@ -39,10 +39,15 @@ export default function EventHeader({ initialEvent, initialParticipants }: IProp
                     </Link>
                 </div>
             </div>
-            <p className="text-gray-700">{getDateString(event.date)}</p>
-            {event.date}
-            <p className="text-sm text-gray-700">No Gift Limit</p>
-            <p className="text-sm italic text-gray-700">No Description</p>
+            <p className="text-gray-700">
+                {`${getDateString(event.date)} • ${
+                    event.gift_amount ? `$${event.gift_amount} Gift Limit` : 'No Gift Amount'
+                }`}
+            </p>
+
+            <p className="break-words text-sm  text-gray-700">
+                {event.description ? event.description : 'No description'}
+            </p>
             <div className="pt-2 sm:hidden">
                 <Link href={eventManageSettingsRoute(event.uuid)}>
                     <PrimaryOutlineButton size="sm">

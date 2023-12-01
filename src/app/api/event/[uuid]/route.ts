@@ -6,7 +6,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 export async function PATCH(req: NextRequest, { params }: { params: { uuid: string } }) {
     const supabase = SupabaseServer()
     const { uuid } = params
-    const { name, date } = (await req.json()) as EventUpdate
+    const data = (await req.json()) as EventUpdate
 
     const {
         data: { user }
@@ -19,8 +19,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { uuid: stri
     const { data: event, error: eventError } = (await supabase
         .from('event')
         .update({
-            name,
-            date
+            ...data
         })
         .eq('uuid', uuid)
         .select()) as { data: Event[]; error: any }

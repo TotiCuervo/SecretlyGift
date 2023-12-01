@@ -2,11 +2,11 @@ import { Event } from '@/types/events/Event'
 import React from 'react'
 import { Metadata } from 'next'
 import { fetchEventWithParticipants } from '@/lib/supabase/api/events/fetch/fetchEventWithParticipants'
-import JoinEventForm from '../_component/join-event-form/join-event-form'
+import JoinEventForm from '../../_component/join-event-form/join-event-form'
 import { redirect } from 'next/navigation'
 import SupabaseAdmin from '@/lib/supabase/handlers/SupabaseAdmin'
-import EventCardTransition from '../_component/event-card-transition'
-import EventCard from '../_component/event-card'
+import EventCardTransition from '../../_component/event-card-transition'
+import EventCard from '../../_component/event-card'
 interface IProps {
     params: {
         uuid: string
@@ -37,7 +37,7 @@ export default async function Page({ params }: { params: { uuid: string } }) {
     const { event } = await getData(params.uuid)
 
     return (
-        <div className="mx-auto flex max-w-7xl items-center justify-center space-x-2 px-4 pt-10 sm:px-16 sm:pt-40">
+        <div className="mx-auto flex items-center justify-center space-x-2 px-4 pt-10 sm:max-w-7xl sm:px-16 sm:pt-40">
             {/* Content Section */}
             <div className="w-full sm:w-1/2">
                 <JoinEventForm event={event} />

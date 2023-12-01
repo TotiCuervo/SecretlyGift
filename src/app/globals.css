@@ -7,6 +7,10 @@
     @apply flex-grow rounded-lg border p-2.5 outline-none transition duration-150 ease-in-out focus:shadow focus:ring-1;
 }
 
+.input-field-money {
+    @apply flex-grow rounded-lg border p-2.5 pl-7 outline-none transition duration-150 ease-in-out focus:shadow focus:ring-1;
+}
+
 .input-field-default {
     @apply border-gray-300 focus:border-gray-400 focus:ring-gray-400;
 }

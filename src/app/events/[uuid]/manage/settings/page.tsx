@@ -14,6 +14,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import TextArea from '@/components/inputs/text-area'
+import MoneyInput from '@/components/inputs/money-input'
 
 interface IProps {
     params: {
@@ -24,6 +26,8 @@ interface IProps {
 interface FormData {
     name: string
     date: Date
+    gift_amount: number | null
+    description: string | null
 }
 
 const schema = z.object({
@@ -35,7 +39,20 @@ const schema = z.object({
             return val >= today
         },
         { message: 'Event date must not be in the past' }
-    )
+    ),
+    gift_amount: z.coerce
+        .number()
+        .int()
+        .min(0, { message: 'Gift amount must be a positive number' })
+        .gte(0, { message: 'Gift amount must be a positive number' })
+        .optional()
+        .nullable(),
+    description: z
+        .string()
+        .min(3, { message: 'Description needs to be more than 3 characters' })
+        .max(500, { message: 'Description needs to be less than 500 characters' })
+        .optional()
+        .nullable()
 })
 
 export default function Page({ params }: IProps) {
@@ -55,7 +72,9 @@ export default function Page({ params }: IProps) {
         resolver: zodResolver(schema),
         defaultValues: {
             name: event?.name,
-            date: event?.date ? new Date(event.date) : new Date()
+            date: event?.date ? new Date(event.date) : new Date(),
+            gift_amount: event?.gift_amount,
+            description: event?.description
         }
     })
 
@@ -64,8 +83,10 @@ export default function Page({ params }: IProps) {
 
         try {
             const updatedEvent = await updateEvent(uuid, {
+                date: data.date.toLocaleDateString(),
                 name: data.name,
-                date: data.date.toLocaleDateString()
+                gift_amount: data.gift_amount,
+                description: data.description
             })
 
             invalidate(uuid)
@@ -102,6 +123,35 @@ export default function Page({ params }: IProps) {
                             {...field}
                             error={fieldState?.error?.message}
                             key={'date'}
+                        />
+                    )}
+                />
+                <Controller
+                    name="gift_amount"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field, fieldState }) => (
+                        <MoneyInput
+                            title={'Gift limit'}
+                            {...field}
+                            error={fieldState?.error?.message}
+                            key={'gift_amount'}
+                            onChange={(e) => {
+                                field.onChange(e.target.valueAsNumber)
+                            }}
+                        />
+                    )}
+                />
+                <Controller
+                    name="description"
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field, fieldState }) => (
+                        <TextArea
+                            title={'Description'}
+                            {...field}
+                            error={fieldState?.error?.message}
+                            key={'description'}
                         />
                     )}
                 />

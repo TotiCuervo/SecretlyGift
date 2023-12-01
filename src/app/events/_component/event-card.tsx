@@ -14,7 +14,7 @@ export default function EventCard({ event }: IProps) {
                 <p className="text-base text-gray-700">Hosted by {event.created_by.full_name}</p>
             </div>
             <div className="pt-4">
-                <p className="text-base italic text-gray-700">No description yet</p>
+                <p className="text-base text-gray-700">{event.description ? event.description : 'No description'}</p>
             </div>
             <div className="pt-4">
                 <ParticipantImagePreview participants={event.participant} size={5} />
@@ -22,7 +22,9 @@ export default function EventCard({ event }: IProps) {
             </div>
             <div className="pt-4">
                 <p className="text-sm text-gray-700">
-                    <span className="font-display text-2xl">No Gift Limit</span>
+                    <span className="font-display text-lg">
+                        {event.gift_amount ? `$${event.gift_amount} Gift Limit` : 'No Gift Limit'}
+                    </span>
                 </p>
             </div>
             <div className="pt-4">

@@ -2,12 +2,10 @@
 import useParticipantsWithProfileByEventQuery from '@/lib/query/participants/event/useParticipantsByEventQuery'
 import { Event } from '@/types/events/Event'
 import React from 'react'
-import PrimaryButton from '@/components/buttons/primary-button'
-import { PlusIcon } from '@heroicons/react/24/solid'
 import InviteLinkButton from '../invite-link-button'
 import ParticipantTable from './_components/participant-table'
 import ParticipantCards from './_components/participant-cards'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
+import AddParticipantButton from './_components/add-participant-button'
 
 interface IProps {
     event: Event['uuid']
@@ -15,17 +13,13 @@ interface IProps {
 
 export default function ParticipantSection({ event }: IProps) {
     const { data: participants = [] } = useParticipantsWithProfileByEventQuery(event)
-
     return (
         <section>
             <div className="sm:rounded-lg sm:bg-white sm:px-6 sm:py-6 sm:shadow">
                 <div className="flex items-center justify-between">
                     <h2 className="font-semibold">Participants</h2>
                     <div className="hidden sm:flex">
-                        <PrimaryButton size="sm">
-                            <PlusCircleIcon className="h-6 w-6 text-white" />
-                            Add Participants
-                        </PrimaryButton>
+                        <AddParticipantButton event={event} />
                     </div>
                 </div>
                 <div className="hidden sm:flex">
@@ -33,10 +27,7 @@ export default function ParticipantSection({ event }: IProps) {
                 </div>
                 <div className="flex flex-col pt-2 sm:hidden">
                     <div className="mb-4 h-10">
-                        <PrimaryButton size="full">
-                            <PlusCircleIcon className="h-6 w-6 text-white" />
-                            Add Participants
-                        </PrimaryButton>
+                        <AddParticipantButton event={event} />
                     </div>
                     <ParticipantCards participants={participants} />
                 </div>
