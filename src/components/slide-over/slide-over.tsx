@@ -11,7 +11,7 @@ interface IProps extends PublicSlideOverProps {
     children: React.ReactNode
 }
 
-export default function SlideOver({ title, isOpen, setIsOpen, children }: IProps) {
+export default function SlideOver({ isOpen, setIsOpen, children }: IProps) {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={setIsOpen}>
