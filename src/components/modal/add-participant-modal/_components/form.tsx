@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { ModalProps } from '../../modal'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -14,7 +13,7 @@ import { inviteToEvent } from '@/endpoints/event/invite-to-event'
 import { Event } from '@/types/events/Event'
 import { AxiosError } from 'axios'
 import { AddedUser } from '../add-participant-modal'
-import useParticipantsByEventQueryInvalidation from '@/lib/query/participants/event/useParticipantsByEventQueryInvalidation'
+import useAdministrativeParticipantsInvalidation from '@/lib/query/participants/administrative/useParticipantsByEventQueryInvalidation'
 
 interface FormData {
     name: string
@@ -46,7 +45,7 @@ export default function Form({ isOpen, setIsOpen, event, setStep, setAddedUser, 
         resolver: zodResolver(schema)
     })
 
-    const invalidate = useParticipantsByEventQueryInvalidation()
+    const invalidate = useAdministrativeParticipantsInvalidation()
 
     const [status, setStatus] = useState<StatusMessage>()
 

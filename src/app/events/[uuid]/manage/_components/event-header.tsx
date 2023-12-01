@@ -4,7 +4,7 @@ import useEventUUIDQuery from '@/lib/query/events/uuid/useEventUUIDQuery'
 import useParticipantsWithProfileByEventQuery from '@/lib/query/participants/event/useParticipantsByEventQuery'
 import { eventManageSettingsRoute } from '@/lib/router/routes/events/event-manage-settings-route'
 import { Event } from '@/types/events/Event'
-import { ParticipantWithProfile } from '@/types/participant/ParticipantWithProfile'
+import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 import getDateString from '@/utils/getDateString'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -12,7 +12,7 @@ import React from 'react'
 
 interface IProps {
     initialEvent: Event
-    initialParticipants: ParticipantWithProfile[]
+    initialParticipants: AdministrativeParticipantView[]
 }
 
 export default function EventHeader({ initialEvent, initialParticipants }: IProps) {

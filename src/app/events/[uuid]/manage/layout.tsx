@@ -2,13 +2,13 @@ import { dashboardRoute } from '@/lib/router/routes/authenticated/dashboard-rout
 import SupabaseServer from '@/lib/supabase/handlers/SupabaseServer'
 import getSessionOrRedirect from '@/lib/supabase/api/auth/getSessionOrRedirect'
 import getEvent from '@/lib/supabase/api/events/fetch/fetchEvent'
-import fetchParticipantsWithProfile from '@/lib/supabase/api/participants/fetch/fetchParticipantsWithProfile'
-import { ParticipantWithProfile } from '@/types/participant/ParticipantWithProfile'
 import { Event } from '@/types/events/Event'
 import { redirect } from 'next/navigation'
 import { Metadata, ResolvingMetadata } from 'next'
 import EventHeader from './_components/event-header'
 import LayoutNav from './_components/layout-nav'
+import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
+import fetchAdministrativeParticipants from '@/lib/supabase/api/participants/fetch/fetchAdministrativeParticipants'
 
 interface IProps {
     children: React.ReactNode
@@ -24,8 +24,9 @@ async function getData(eventUUID: Event['uuid']) {
 
     if (!event) redirect(dashboardRoute())
 
-    const { data: participants } = (await fetchParticipantsWithProfile(supabase, eventUUID)) as {
-        data: ParticipantWithProfile[]
+    const { data: participants } = (await fetchAdministrativeParticipants(supabase, eventUUID)) as {
+        data: AdministrativeParticipantView[]
+        error: any
     }
 
     const isUserParticipant =

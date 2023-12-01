@@ -1,15 +1,15 @@
 'use client'
-import UserAvatar from '@/components/avatar/user-avatar'
-import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
+import ParticipantProfile from '../../_components/participant-profile'
+import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 
 interface IProps {
     participants: AdministrativeParticipantView[]
 }
 
-export default function ParticipantTable({ participants }: IProps) {
-    const headers = ['Person', 'Role']
+export default function ExclusionTable({ participants }: IProps) {
+    const headers = ['Person', 'Cannot be matched with']
 
     const tdClass = 'whitespace-normal py-4 text-sm font-medium'
 
@@ -32,22 +32,23 @@ export default function ParticipantTable({ participants }: IProps) {
             <tbody>
                 {participants.map((participant, key) => (
                     <tr key={participant.id} className="">
-                        <td className={twMerge(tdClass, 'rounded-bl-lg rounded-tl-lg')}>
-                            <div className="flex gap-2">
-                                <UserAvatar size={'10'} image={participant.profile.avatar_url} />
-                                <div className="flex flex-col justify-center">
-                                    <h3 className="font-bold">{participant.name}</h3>
-                                    <p className="text-xs text-gray-500">{participant.profile.email}</p>
-                                </div>
-                            </div>
+                        <td className={twMerge(tdClass, 'flex rounded-bl-lg rounded-tl-lg')}>
+                            <ParticipantProfile profile={participant.profile} name={participant.name} />
                         </td>
 
                         <td className={twMerge(tdClass)}>
-                            <span className="text-gray-800">{participant.is_admin ? 'Admin' : 'Participant'}</span>
+                            <div className="flex flex-col divide-y">
+                                {participant.exclusions.map((exclusion) => (
+                                    <div className="py-4 first:py-0 first:pb-4">
+                                        <ParticipantProfile
+                                            profile={exclusion.cannot_have_participant.profile}
+                                            name={exclusion.cannot_have_participant.name}
+                                            key={exclusion.cannot_have_participant.id}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </td>
-                        {/* <td className={twMerge(tdClass)}>
-                            <ParticipantOptionDropdown participant={participant} />
-                        </td> */}
                     </tr>
                 ))}
             </tbody>
