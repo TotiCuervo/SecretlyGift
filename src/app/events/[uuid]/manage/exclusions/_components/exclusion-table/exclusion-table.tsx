@@ -1,8 +1,9 @@
 'use client'
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
-import ParticipantProfile from '../../_components/participant-profile'
+import ParticipantProfile from '../../../_components/participant-profile'
 import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
+import ParticipantPill from './_components/participant-pill'
 
 interface IProps {
     participants: AdministrativeParticipantView[]
@@ -37,10 +38,10 @@ export default function ExclusionTable({ participants }: IProps) {
                         </td>
 
                         <td className={twMerge(tdClass)}>
-                            <div className="flex flex-col divide-y">
+                            <div className="flex flex-col gap-2">
                                 {participant.exclusions.map((exclusion) => (
-                                    <div className="py-4 first:py-0 first:pb-4">
-                                        <ParticipantProfile
+                                    <div className="flex">
+                                        <ParticipantPill
                                             profile={exclusion.cannot_have_participant.profile}
                                             name={exclusion.cannot_have_participant.name}
                                             key={exclusion.cannot_have_participant.id}

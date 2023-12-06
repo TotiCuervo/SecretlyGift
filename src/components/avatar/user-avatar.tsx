@@ -8,8 +8,12 @@ interface IProps {
 
 export default function UserAvatar({ image, size = '12' }: IProps) {
     return image ? (
-        <UserIcon className={`h-${size} w-${size} rounded-full border bg-white p-2`} />
+        <div className="rounded-full border bg-white p-2">
+            <UserIcon className={`h-${size} w-${size}`} />
+        </div>
     ) : (
-        <UserIcon className={`h-${size} w-${size} rounded-full border bg-white p-2`} />
+        <div className="rounded-full border bg-white p-2">
+            <UserIcon className={`h-${size} w-${size}`} />
+        </div>
     )
 }
