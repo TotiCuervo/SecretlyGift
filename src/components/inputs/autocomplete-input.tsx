@@ -1,28 +1,18 @@
-import React, { InputHTMLAttributes } from 'react'
-import { twMerge } from 'tailwind-merge'
+import React from 'react'
 import InputLabel from './input-label'
+import Autocomplete, { AutocompleteProps } from '../autocomplete/autocomplete'
 
-interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-    onBlur: (e: React.FocusEvent<HTMLInputElement>) => void
-    value: string
-    name: string
+export interface AutoCompleteInputProps<Item> extends AutocompleteProps<Item> {
     title?: string
-    ref?: React.Ref<HTMLInputElement>
     error?: string
     helperText?: string
 }
 
-export default function AutocompleteInput({ error, title, helperText, ...props }: TextInputProps) {
+export default function AutocompleteInput<Item>({ error, title, helperText, ...props }: AutoCompleteInputProps<Item>) {
     return (
         <div>
             {title && <InputLabel error={Boolean(error)}>{title}</InputLabel>}
-            <div className="flex items-center">
-                <input
-                    className={twMerge('input-field', !error && 'input-field-default', error && 'input-field-error')}
-                    {...props}
-                />
-            </div>
+            <Autocomplete<Item> {...props} />
             {helperText && !error && <span className="p-2 text-xs text-gray-700">{helperText}</span>}
             {error && <span className="p-2 text-xs text-red-700">{error}</span>}
         </div>

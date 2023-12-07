@@ -3,8 +3,13 @@ import React, { useState } from 'react'
 import PrimaryButton from '@/components/buttons/primary-button'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import AddExclusionModal from '@/components/modal/add-exclusion-modal/add-exclusion-modal'
+import { Event } from '@/types/events/Event'
 
-export default function AddExclusionButton() {
+interface IProps {
+    event: Event['uuid']
+}
+
+export default function AddExclusionButton({ event }: IProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
@@ -22,7 +27,7 @@ export default function AddExclusionButton() {
                 </PrimaryButton>
             </div>
 
-            <AddExclusionModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+            <AddExclusionModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} event={event} />
         </>
     )
 }

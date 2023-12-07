@@ -2,37 +2,37 @@ import { Fragment, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
-const people = [
-    { id: 1, name: 'Wade Cooper' },
-    { id: 2, name: 'Arlene Mccoy' },
-    { id: 3, name: 'Devon Webb' },
-    { id: 4, name: 'Tom Cook' },
-    { id: 5, name: 'Tanya Fox' },
-    { id: 6, name: 'Hellen Schmidt' }
-]
-
-interface IProps {
-    list: string[]
+export interface AutocompleteProps<Item> {
+    list: Item[]
+    selectedItem: Item | undefined
+    displayValue: (item: Item | undefined) => string
+    onSelect: (item: Item) => void
 }
-export default function Autocomplete({ list }: IProps) {
-    const [selected, setSelected] = useState(people[0])
+
+export default function Autocomplete<Item>({ list, selectedItem, displayValue, onSelect }: AutocompleteProps<Item>) {
+    // const [selected, setSelected] = useState(selectedItem)
     const [query, setQuery] = useState('')
 
-    const filteredPeople =
+    const filteredItems =
         query === ''
-            ? people
-            : people.filter((person) =>
-                  person.name.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))
+            ? list
+            : list.filter((item) =>
+                  displayValue(item).toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))
               )
 
+    const handleSelect = (item: Item) => {
+        // setSelected(item)
+        onSelect(item)
+    }
+
     return (
-        <Combobox value={selected} onChange={setSelected}>
+        <Combobox value={selectedItem} onChange={handleSelect}>
             <div className="relative mt-1">
                 <div className="">
                     <Combobox.Button className="w-full">
                         <Combobox.Input
-                            className="input-field input-field-default w-full "
-                            displayValue={(person) => person.name}
+                            className="input-field input-field-default w-full"
+                            displayValue={displayValue}
                             onChange={(event) => setQuery(event.target.value)}
                         />
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -47,28 +47,28 @@ export default function Autocomplete({ list }: IProps) {
                     leaveTo="opacity-0"
                     afterLeave={() => setQuery('')}
                 >
-                    <Combobox.Options className="absolute mt-1 max-h-32 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                        {filteredPeople.length === 0 && query !== '' ? (
+                    <Combobox.Options className="absolute z-10 mt-1 max-h-32 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                        {filteredItems.length === 0 && query !== '' ? (
                             <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                                 Nothing found.
                             </div>
                         ) : (
-                            filteredPeople.map((person) => (
+                            filteredItems.map((item, index) => (
                                 <Combobox.Option
-                                    key={person.id}
+                                    key={index}
                                     className={({ active }) =>
                                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                             active ? 'bg-primary-600 text-white' : 'text-gray-900'
                                         }`
                                     }
-                                    value={person}
+                                    value={item}
                                 >
                                     {({ selected, active }) => (
                                         <>
                                             <span
                                                 className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
                                             >
-                                                {person.name}
+                                                {displayValue(item)}
                                             </span>
                                             {selected ? (
                                                 <span
