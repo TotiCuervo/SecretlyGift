@@ -14,6 +14,8 @@ export default function Page({ params }: IProps) {
     const { data: participants = [] } = useAdministrativeParticipantsQuery(uuid)
 
     const participantsWithExclusions = participants.filter((participant) => participant.exclusions.length > 0)
+    const canAddExclusions = participants.length > 2
+
     return (
         <section>
             <div className="sm:rounded-lg sm:bg-white sm:px-6 sm:py-6 sm:shadow">
@@ -26,10 +28,15 @@ export default function Page({ params }: IProps) {
                             </p>
                         </div>
                         <div className="hidden sm:flex">
-                            <AddExclusionButton event={uuid} />
+                            <AddExclusionButton event={uuid} disabled={!canAddExclusions} />
                         </div>
                     </div>
-                    <ExclusionTable participants={participantsWithExclusions} />
+                    {!canAddExclusions && (
+                        <div className="pt-10 text-center">
+                            <span>You need at least 3 participants to add exclusions.</span>
+                        </div>
+                    )}
+                    {canAddExclusions && <ExclusionTable participants={participantsWithExclusions} />}
                 </div>
             </div>
         </section>

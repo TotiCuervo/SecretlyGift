@@ -16,6 +16,7 @@ export default function BaseButton({
     size = 'md',
     loading,
     loadingText,
+    disabled,
     ...props
 }: BaseButtonProps) {
     return (
@@ -29,9 +30,10 @@ export default function BaseButton({
                 size === 'xl' && 'px-6 py-3.5 text-base',
                 size === '2xl' && 'px-7 py-4 text-lg',
                 size === 'full' && 'h-full w-full text-base',
+                disabled && 'cursor-not-allowed opacity-75',
                 customClasses
             )}
-            disabled={loading}
+            disabled={loading || disabled}
         >
             {loading ? (
                 <div className="flex items-center justify-center">

@@ -4,18 +4,23 @@ import React from 'react'
 
 interface IProps {
     data: AdministrativeParticipantView[]
-    profileSelected: boolean
-    onDelete: (id: AdministrativeParticipantView['id']) => void
+    onClick: (id: AdministrativeParticipantView['id']) => void
+    excluded: boolean
+    clickTitle: string
+    backupcheck?: boolean
+    backupText?: string
+    showIf?: boolean
 }
 
-export default function CannotBeMatchedWithSection({ data, profileSelected, onDelete }: IProps) {
+export default function PillList({ data, onClick, excluded, clickTitle, backupText, backupcheck, showIf }: IProps) {
     const spanClass = 'p-2 text-xs text-gray-700 text-center'
-    if (!profileSelected) {
-        return <span className={spanClass}>Select a participant to see their exclusions.</span>
+
+    if (backupcheck) {
+        return <span className={spanClass}>{backupText}</span>
     }
 
-    if (data.length === 0) {
-        return <span className={spanClass}>This participant does not have any exclusions yet.</span>
+    if (showIf !== undefined && !showIf) {
+        return null
     }
 
     return (
@@ -25,7 +30,9 @@ export default function CannotBeMatchedWithSection({ data, profileSelected, onDe
                     name={participant.name}
                     profile={participant.profile}
                     key={index}
-                    onDelete={() => onDelete(participant.id)}
+                    onClick={() => onClick(participant.id)}
+                    excluded={excluded}
+                    clickTitle={clickTitle}
                 />
             ))}
         </div>

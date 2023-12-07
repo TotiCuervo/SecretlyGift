@@ -7,23 +7,22 @@ import { Event } from '@/types/events/Event'
 
 interface IProps {
     event: Event['uuid']
+    disabled: boolean
 }
 
-export default function AddExclusionButton({ event }: IProps) {
+export default function AddExclusionButton({ event, disabled }: IProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
         <>
             <div className="hidden sm:flex">
-                <PrimaryButton size="sm" onClick={() => setIsModalOpen(true)}>
-                    <PlusCircleIcon className="h-6 w-6 text-white" />
-                    Add Exclusion
+                <PrimaryButton disabled={disabled} onClick={() => setIsModalOpen(true)}>
+                    Manage Exclusion
                 </PrimaryButton>
             </div>
             <div className="flex h-full sm:hidden">
-                <PrimaryButton size="full" onClick={() => setIsModalOpen(true)}>
-                    <PlusCircleIcon className="h-6 w-6 text-white" />
-                    Add Exclusion
+                <PrimaryButton disabled={disabled} size="full" onClick={() => setIsModalOpen(true)}>
+                    Manage Exclusion
                 </PrimaryButton>
             </div>
 

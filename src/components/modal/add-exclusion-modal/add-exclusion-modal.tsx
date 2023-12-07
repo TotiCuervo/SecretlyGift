@@ -8,9 +8,12 @@ import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import useAdministrativeParticipantsQuery from '@/lib/query/participants/administrative/useAdministrativeParticipantsQuery'
 import { Event } from '@/types/events/Event'
 import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
-import CannotBeMatchedWithSection from './_components/cannot-be-matched-with-section'
+import PillList from './_components/pill-list'
 import AutocompleteInput from '@/components/inputs/autocomplete-input'
 import { Participant } from '@/types/participant/Participant'
+import InputLabel from '@/components/inputs/input-label'
+import { updateExclusions } from '@/endpoints/event/update-exclusions'
+import useAdministrativeParticipantsInvalidation from '@/lib/query/participants/administrative/useParticipantsByEventQueryInvalidation'
 
 interface IProps extends ModalProps {
     event: Event['uuid']
@@ -18,8 +21,9 @@ interface IProps extends ModalProps {
 
 export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps) {
     const { data: participants = [] } = useAdministrativeParticipantsQuery(event)
-    const [status, setStatus] = useState<StatusMessage>()
+    const invalidate = useAdministrativeParticipantsInvalidation()
 
+    const [status, setStatus] = useState<StatusMessage>()
     const [selectedParticipant, setSelectedParticipant] = useState<AdministrativeParticipantView>()
     const [cannotBeMatchedWith, setCannotBeMatchedWith] = useState<Participant['id'][]>([])
 
@@ -27,11 +31,12 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
         cannotBeMatchedWith.some((exclusion) => exclusion === participant.id)
     )
 
-    const possibleExclusions = participants.filter(
-        (participant) =>
-            participant.id !== selectedParticipant?.id ||
-            !cannotBeMatchedWith.some((exclusion) => exclusion === participant.id)
-    )
+    const possibleExclusions = participants.filter((participant) => {
+        return !(
+            participant.id === selectedParticipant?.id ||
+            cannotBeMatchedWith.some((exclusion) => exclusion === participant.id)
+        )
+    })
 
     const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -43,18 +48,35 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
         }
     }, [selectedParticipant])
 
+    useEffect(() => {
+        if (props.isOpen) {
+            setStatus(undefined)
+            setSelectedParticipant(undefined)
+            setCannotBeMatchedWith([])
+        }
+    }, [props.isOpen])
+
     function handleAPVDisplayValue(item: AdministrativeParticipantView | undefined) {
         return item ? (item.name ? item.name : item.profile.email) : ''
     }
 
-    function handleExclusionOnSelect(item: AdministrativeParticipantView | undefined) {
-        if (item) {
-            setCannotBeMatchedWith([...cannotBeMatchedWith, item.id])
-        }
+    function handleExclusionOnSelect(id: Participant['id']) {
+        setCannotBeMatchedWith([...cannotBeMatchedWith, id])
     }
 
     function deleteExclusion(id: Participant['id']) {
         setCannotBeMatchedWith(cannotBeMatchedWith.filter((exclusion) => exclusion !== id))
+    }
+
+    async function onSubmit() {
+        try {
+            await updateExclusions({
+                participant: selectedParticipant?.id as number,
+                exclusions: cannotBeMatchedWith,
+                event
+            })
+            invalidate(event)
+        } catch (error) {}
     }
 
     return (
@@ -84,29 +106,36 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
                                 list={participants}
                                 displayValue={handleAPVDisplayValue}
                             />
-                            <AutocompleteInput<AdministrativeParticipantView>
-                                title={'Cannot be matched with'}
-                                onSelect={handleExclusionOnSelect}
-                                selectedItem={undefined}
-                                key={'participant'}
-                                list={possibleExclusions}
-                                displayValue={handleAPVDisplayValue}
-                            />
-                            <CannotBeMatchedWithSection
-                                data={exclusions}
-                                profileSelected={selectedParticipant !== undefined}
-                                onDelete={deleteExclusion}
-                            />
+                            <div className="flex flex-col gap-2">
+                                <InputLabel>Cannot be matched with</InputLabel>
+                                <PillList
+                                    data={exclusions}
+                                    onClick={deleteExclusion}
+                                    excluded
+                                    clickTitle="Remove"
+                                    backupcheck={exclusions.length === 0}
+                                    backupText="This Participant does not have any exclusions yet"
+                                />
+                                <PillList
+                                    data={possibleExclusions}
+                                    onClick={handleExclusionOnSelect}
+                                    excluded={false}
+                                    clickTitle="Exclude"
+                                    showIf={selectedParticipant !== undefined}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className="flex justify-end border-t border-gray-300 px-6 py-4">
                         <div className="flex justify-end gap-3">
-                            <PrimaryGhostButton onClick={() => {}}>Cancel</PrimaryGhostButton>
-                            <PrimaryButton loading={isSubmitting} loadingText="Adding...">
-                                <div className="flex items-center">
-                                    <PlusCircleIcon className="h-5 w-5" />
-                                    <span className="ml-2">Add</span>
-                                </div>
+                            <PrimaryGhostButton onClick={() => setIsOpen(false)}>Cancel</PrimaryGhostButton>
+                            <PrimaryButton
+                                disabled={selectedParticipant === undefined}
+                                loading={isSubmitting}
+                                loadingText="Adding..."
+                                onClick={onSubmit}
+                            >
+                                Update
                             </PrimaryButton>
                         </div>
                     </div>
