@@ -3,6 +3,7 @@ import React from 'react'
 import ExclusionTable from './_components/exclusion-table/exclusion-table'
 import useAdministrativeParticipantsQuery from '@/lib/query/participants/administrative/useAdministrativeParticipantsQuery'
 import AddExclusionButton from './_components/add-exclusion-button'
+import ExclusionCards from './_components/exclusion-cards/exclusion-cards'
 interface IProps {
     params: {
         uuid: string
@@ -31,12 +32,35 @@ export default function Page({ params }: IProps) {
                             <AddExclusionButton event={uuid} disabled={!canAddExclusions} />
                         </div>
                     </div>
+                    <div className="visible mt-4 h-12 w-full sm:hidden">
+                        <AddExclusionButton event={uuid} disabled={!canAddExclusions} />
+                    </div>
                     {!canAddExclusions && (
                         <div className="pt-10 text-center">
                             <span>You need at least 3 participants to add exclusions.</span>
                         </div>
                     )}
-                    {canAddExclusions && <ExclusionTable participants={participantsWithExclusions} />}
+                    {canAddExclusions && participantsWithExclusions.length > 0 && (
+                        <>
+                            <div className="hidden sm:flex">
+                                <ExclusionTable participants={participantsWithExclusions} />
+                            </div>
+                            <div className="flex pt-4 sm:hidden">
+                                <ExclusionCards participants={participantsWithExclusions} />
+                            </div>
+                        </>
+                    )}
+                    {canAddExclusions && participantsWithExclusions.length === 0 && (
+                        <div className="flex flex-col items-center justify-center gap-4 pt-10 text-center">
+                            <span>No exclusions yet.</span>
+                            <div className="visible h-12 w-full sm:hidden">
+                                <AddExclusionButton event={uuid} disabled={!canAddExclusions} />
+                            </div>
+                            <div className="hidden sm:flex">
+                                <AddExclusionButton event={uuid} disabled={!canAddExclusions} />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

@@ -27,7 +27,6 @@ export default function ExclusionTable({ participants }: IProps) {
                             {header}
                         </th>
                     ))}
-                    {/* <th></th> */}
                 </tr>
             </thead>
             <tbody>
@@ -40,7 +39,7 @@ export default function ExclusionTable({ participants }: IProps) {
                         <td className={twMerge(tdClass)}>
                             <div className="flex flex-col gap-2">
                                 {participant.exclusions.map((exclusion) => (
-                                    <div className="flex">
+                                    <div className="flex w-full">
                                         <ParticipantPill
                                             profile={exclusion.cannot_have_participant.profile}
                                             name={exclusion.cannot_have_participant.name}

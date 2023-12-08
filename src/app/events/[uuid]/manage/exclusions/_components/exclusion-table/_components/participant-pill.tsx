@@ -16,7 +16,7 @@ export default function ParticipantPill({ name, profile, onClick, excluded, clic
     return (
         <div
             className={twMerge(
-                'flex items-center gap-2 rounded-xl p-2 shadow-sm',
+                'flex w-full items-center gap-2 rounded-xl p-2 shadow-sm',
                 excluded ? 'bg-red-400' : 'bg-gray-100'
             )}
         >

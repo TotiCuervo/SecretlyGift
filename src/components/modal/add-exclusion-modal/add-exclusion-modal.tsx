@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { StatusMessage } from '@/types/StatusMessage'
 import PrimaryGhostButton from '@/components/buttons/primary-ghost-button'
 import PrimaryButton from '@/components/buttons/primary-button'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import useAdministrativeParticipantsQuery from '@/lib/query/participants/administrative/useAdministrativeParticipantsQuery'
 import { Event } from '@/types/events/Event'
 import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
@@ -69,6 +68,7 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
     }
 
     async function onSubmit() {
+        setIsSubmitting(true)
         try {
             await updateExclusions({
                 participant: selectedParticipant?.id as number,
@@ -76,7 +76,15 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
                 event
             })
             invalidate(event)
-        } catch (error) {}
+            setIsSubmitting(false)
+            setIsOpen(false)
+        } catch (error) {
+            setIsSubmitting(false)
+            setStatus({
+                type: 'error',
+                message: 'Something went wrong. Please try again later.'
+            })
+        }
     }
 
     return (
@@ -132,7 +140,7 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
                             <PrimaryButton
                                 disabled={selectedParticipant === undefined}
                                 loading={isSubmitting}
-                                loadingText="Adding..."
+                                loadingText="Updating..."
                                 onClick={onSubmit}
                             >
                                 Update
