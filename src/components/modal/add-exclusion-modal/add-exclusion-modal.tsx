@@ -37,6 +37,9 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
         )
     })
 
+    const onlyOnePossibleMatch = possibleExclusions.length === 1
+    const noPossibleMatches = possibleExclusions.length === 0
+
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
@@ -61,10 +64,19 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
 
     function handleExclusionOnSelect(id: Participant['id']) {
         setCannotBeMatchedWith([...cannotBeMatchedWith, id])
+        if (onlyOnePossibleMatch) {
+            setStatus({
+                type: 'error',
+                message: 'Each participant must have at least one possible match'
+            })
+        }
     }
 
     function deleteExclusion(id: Participant['id']) {
         setCannotBeMatchedWith(cannotBeMatchedWith.filter((exclusion) => exclusion !== id))
+        if (noPossibleMatches && status !== undefined) {
+            setStatus(undefined)
+        }
     }
 
     async function onSubmit() {
@@ -138,7 +150,7 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
                         <div className="flex justify-end gap-3">
                             <PrimaryGhostButton onClick={() => setIsOpen(false)}>Cancel</PrimaryGhostButton>
                             <PrimaryButton
-                                disabled={selectedParticipant === undefined}
+                                disabled={selectedParticipant === undefined || noPossibleMatches}
                                 loading={isSubmitting}
                                 loadingText="Updating..."
                                 onClick={onSubmit}

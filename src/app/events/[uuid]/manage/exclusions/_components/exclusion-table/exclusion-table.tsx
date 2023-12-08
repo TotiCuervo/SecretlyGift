@@ -4,13 +4,16 @@ import { twMerge } from 'tailwind-merge'
 import ParticipantProfile from '../../../_components/participant-profile'
 import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 import ParticipantPill from './_components/participant-pill'
+import AddExclusionButton from '../add-exclusion-button'
+import { Event } from '@/types/events/Event'
 
 interface IProps {
     participants: AdministrativeParticipantView[]
+    event: Event['uuid']
 }
 
-export default function ExclusionTable({ participants }: IProps) {
-    const headers = ['Person', 'Cannot be matched with']
+export default function ExclusionTable({ participants, event }: IProps) {
+    const headers = ['Participant', 'Cannot be matched with']
 
     const tdClass = 'whitespace-normal py-4 text-sm font-medium'
 
@@ -32,7 +35,7 @@ export default function ExclusionTable({ participants }: IProps) {
             <tbody>
                 {participants.map((participant, key) => (
                     <tr key={participant.id} className="">
-                        <td className={twMerge(tdClass, 'flex rounded-bl-lg rounded-tl-lg')}>
+                        <td className={twMerge(tdClass, 'flex flex-col rounded-bl-lg rounded-tl-lg')}>
                             <ParticipantProfile profile={participant.profile} name={participant.name} />
                         </td>
 
@@ -47,6 +50,7 @@ export default function ExclusionTable({ participants }: IProps) {
                                         />
                                     </div>
                                 ))}
+                                <AddExclusionButton event={event} disabled={false} />
                             </div>
                         </td>
                     </tr>

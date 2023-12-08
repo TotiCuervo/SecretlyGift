@@ -28,12 +28,6 @@ export default function Page({ params }: IProps) {
                                 These participants are excluded from being matched with each other.
                             </p>
                         </div>
-                        <div className="hidden sm:flex">
-                            <AddExclusionButton event={uuid} disabled={!canAddExclusions} />
-                        </div>
-                    </div>
-                    <div className="visible mt-4 h-12 w-full sm:hidden">
-                        <AddExclusionButton event={uuid} disabled={!canAddExclusions} />
                     </div>
                     {!canAddExclusions && (
                         <div className="pt-10 text-center">
@@ -43,7 +37,7 @@ export default function Page({ params }: IProps) {
                     {canAddExclusions && participantsWithExclusions.length > 0 && (
                         <>
                             <div className="hidden sm:flex">
-                                <ExclusionTable participants={participantsWithExclusions} />
+                                <ExclusionTable participants={participantsWithExclusions} event={uuid} />
                             </div>
                             <div className="flex pt-4 sm:hidden">
                                 <ExclusionCards participants={participantsWithExclusions} />
