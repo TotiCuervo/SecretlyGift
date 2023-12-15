@@ -8,56 +8,57 @@ import useAdministrativeParticipantsQuery from '@/lib/query/participants/adminis
 import { Event } from '@/types/events/Event'
 import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 import PillList from './_components/pill-list'
-import AutocompleteInput from '@/components/inputs/autocomplete-input'
 import { Participant } from '@/types/participant/Participant'
 import InputLabel from '@/components/inputs/input-label'
 import { updateExclusions } from '@/endpoints/event/update-exclusions'
 import useAdministrativeParticipantsInvalidation from '@/lib/query/participants/administrative/useParticipantsByEventQueryInvalidation'
+import ParticipantProfile from '@/app/events/[uuid]/manage/_components/participant-profile'
 
 interface IProps extends ModalProps {
     event: Event['uuid']
+    participant: AdministrativeParticipantView
 }
 
-export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps) {
+export default function AddExclusionModal({ setIsOpen, event, participant, ...props }: IProps) {
     const { data: participants = [] } = useAdministrativeParticipantsQuery(event)
     const invalidate = useAdministrativeParticipantsInvalidation()
 
     const [status, setStatus] = useState<StatusMessage>()
-    const [selectedParticipant, setSelectedParticipant] = useState<AdministrativeParticipantView>()
     const [cannotBeMatchedWith, setCannotBeMatchedWith] = useState<Participant['id'][]>([])
 
     const exclusions = participants.filter((participant) =>
         cannotBeMatchedWith.some((exclusion) => exclusion === participant.id)
     )
 
-    const possibleExclusions = participants.filter((participant) => {
-        return !(
-            participant.id === selectedParticipant?.id ||
-            cannotBeMatchedWith.some((exclusion) => exclusion === participant.id)
-        )
+    const possibleExclusions = participants.filter((p) => {
+        return !(p.id === participant?.id || cannotBeMatchedWith.some((exclusion) => exclusion === p.id))
     })
+
+    const atLeastOnePossibleMatch = possibleExclusions.length >= 1
+
+    const disabled = !atLeastOnePossibleMatch
 
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
-        if (selectedParticipant) {
-            setCannotBeMatchedWith(
-                selectedParticipant.exclusions.map((exclusion) => exclusion.cannot_have_participant.id)
-            )
-        }
-    }, [selectedParticipant])
-
-    useEffect(() => {
         if (props.isOpen) {
-            setStatus(undefined)
-            setSelectedParticipant(undefined)
-            setCannotBeMatchedWith([])
+            if (atLeastOnePossibleMatch) {
+                setStatus(undefined)
+            }
+            setCannotBeMatchedWith(participant.exclusions.map((exclusion) => exclusion.cannot_have_participant.id))
         }
     }, [props.isOpen])
 
-    function handleAPVDisplayValue(item: AdministrativeParticipantView | undefined) {
-        return item ? (item.name ? item.name : item.profile.email) : ''
-    }
+    useEffect(() => {
+        if (atLeastOnePossibleMatch) {
+            setStatus(undefined)
+        } else {
+            setStatus({
+                type: 'error',
+                message: 'You must have at least one possible match'
+            })
+        }
+    }, [atLeastOnePossibleMatch])
 
     function handleExclusionOnSelect(id: Participant['id']) {
         setCannotBeMatchedWith([...cannotBeMatchedWith, id])
@@ -71,7 +72,7 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
         setIsSubmitting(true)
         try {
             await updateExclusions({
-                participant: selectedParticipant?.id as number,
+                participant: participant?.id as number,
                 exclusions: cannotBeMatchedWith,
                 event
             })
@@ -94,7 +95,7 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
                     <h3 className="text-lg font-medium leading-6 text-gray-900">Manage Exclusions</h3>
                     <div className="px-7 py-3">
                         <p className="text-sm text-gray-500">
-                            Enter the name and email of the person you want to add to your event.
+                            Add or remove people that {participant.name} cannot be matched with.
                         </p>
                     </div>
                 </div>
@@ -106,14 +107,10 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
                 <div className="mt-4">
                     <div className="px-6 pb-6">
                         <div className="flex flex-col gap-4">
-                            <AutocompleteInput<AdministrativeParticipantView>
-                                title={'Participant'}
-                                onSelect={setSelectedParticipant}
-                                selectedItem={selectedParticipant}
-                                key={'participant'}
-                                list={participants}
-                                displayValue={handleAPVDisplayValue}
-                            />
+                            <div className="flex flex-col">
+                                <InputLabel>Participant</InputLabel>
+                                <ParticipantProfile profile={participant.profile} name={participant.name} />
+                            </div>
                             <div className="flex flex-col gap-2">
                                 <InputLabel>Cannot be matched with</InputLabel>
                                 <PillList
@@ -129,7 +126,6 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
                                     onClick={handleExclusionOnSelect}
                                     excluded={false}
                                     clickTitle="Exclude"
-                                    showIf={selectedParticipant !== undefined}
                                 />
                             </div>
                         </div>
@@ -138,7 +134,7 @@ export default function AddExclusionModal({ setIsOpen, event, ...props }: IProps
                         <div className="flex justify-end gap-3">
                             <PrimaryGhostButton onClick={() => setIsOpen(false)}>Cancel</PrimaryGhostButton>
                             <PrimaryButton
-                                disabled={selectedParticipant === undefined}
+                                disabled={disabled}
                                 loading={isSubmitting}
                                 loadingText="Updating..."
                                 onClick={onSubmit}

@@ -1,4 +1,4 @@
-import ParticipantPill from '@/app/events/[uuid]/manage/exclusions/_components/exclusion-table/_components/participant-pill'
+import ParticipantPill from '@/app/events/[uuid]/manage/exclusions/_components/participant-pill'
 import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 import React from 'react'
 
