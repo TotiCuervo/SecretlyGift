@@ -46,8 +46,8 @@ export default function Page({ params }: IProps) {
                                     </span>
                                     <div className="flex flex-col pt-4 text-sm">
                                         <span className="font-semibold">Participants with no possible matches:</span>
-                                        {participantsWithNoPossibleMatches.map((participant) => (
-                                            <span>• {participant.name}</span>
+                                        {participantsWithNoPossibleMatches.map((participant, index) => (
+                                            <span key={index}>• {participant.name}</span>
                                         ))}
                                     </div>
                                 </div>
