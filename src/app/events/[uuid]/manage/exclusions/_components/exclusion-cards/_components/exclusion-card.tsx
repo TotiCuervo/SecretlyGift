@@ -16,12 +16,18 @@ export default function ExclusionCard({ participant }: IProps) {
         <div className="flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow">
             <div className="flex flex-col gap-2">
                 <span className="text-sm font-semibold text-gray-600">Participant</span>
-                <ParticipantProfile profile={participant.profile} name={participant.name} />
+                <ParticipantProfile
+                    profile={participant.profile}
+                    name={participant.name}
+                />
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                     <span className="text-sm font-semibold text-gray-600">Cannot be matched with</span>
-                    <AddExclusionButton event={participant.event} participant={participant}>
+                    <AddExclusionButton
+                        event={participant.event}
+                        participant={participant}
+                    >
                         <PrimaryOutlineButton size="xs">
                             <AdjustmentsHorizontalIcon className="h-4 w-4" />
                             Manage
@@ -29,8 +35,11 @@ export default function ExclusionCard({ participant }: IProps) {
                     </AddExclusionButton>
                 </div>
                 <div className="flex flex-col gap-2">
-                    {participant.exclusions.map((exclusion) => (
-                        <div className="flex w-full">
+                    {participant.exclusions.map((exclusion, index) => (
+                        <div
+                            className="flex w-full"
+                            key={`${exclusion.id} + ${index}`}
+                        >
                             <ParticipantPill
                                 profile={exclusion.cannot_have_participant.profile}
                                 name={exclusion.cannot_have_participant.name}
@@ -41,7 +50,11 @@ export default function ExclusionCard({ participant }: IProps) {
                     {participant.exclusions.length === 0 && (
                         <div className="mt-8 flex w-full flex-col items-center">
                             <span className="text-sm font-semibold">No exclusions yet</span>
-                            <AddExclusionButton className="mt-8 w-full" event={participant.event} participant={participant}>
+                            <AddExclusionButton
+                                className="mt-8 w-full"
+                                event={participant.event}
+                                participant={participant}
+                            >
                                 <div className="h-10 w-full">
                                     <PrimaryButton size="full-sm">Add Exclusion</PrimaryButton>
                                 </div>
