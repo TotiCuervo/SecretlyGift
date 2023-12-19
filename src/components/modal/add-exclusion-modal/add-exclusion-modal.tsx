@@ -13,6 +13,7 @@ import InputLabel from '@/components/inputs/input-label'
 import { updateExclusions } from '@/endpoints/event/update-exclusions'
 import useAdministrativeParticipantsInvalidation from '@/lib/query/participants/administrative/useParticipantsByEventQueryInvalidation'
 import ParticipantProfile from '@/app/events/[uuid]/manage/_components/participant-profile'
+import useCanEventGenerate from '@/hooks/useDoAllParticipantsHavePossibleMatch'
 
 interface IProps extends ModalProps {
     event: Event['uuid']
@@ -21,6 +22,7 @@ interface IProps extends ModalProps {
 
 export default function AddExclusionModal({ setIsOpen, event, participant, ...props }: IProps) {
     const { data: participants = [] } = useAdministrativeParticipantsQuery(event)
+
     const invalidate = useAdministrativeParticipantsInvalidation()
 
     const [status, setStatus] = useState<StatusMessage>()
@@ -55,7 +57,7 @@ export default function AddExclusionModal({ setIsOpen, event, participant, ...pr
         } else {
             setStatus({
                 type: 'error',
-                message: 'You must have at least one possible match'
+                message: 'You must have at least one possible match',
             })
         }
     }, [atLeastOnePossibleMatch])
@@ -74,7 +76,7 @@ export default function AddExclusionModal({ setIsOpen, event, participant, ...pr
             await updateExclusions({
                 participant: participant?.id as number,
                 exclusions: cannotBeMatchedWith,
-                event
+                event,
             })
             invalidate(event)
             setIsSubmitting(false)
@@ -83,14 +85,18 @@ export default function AddExclusionModal({ setIsOpen, event, participant, ...pr
             setIsSubmitting(false)
             setStatus({
                 type: 'error',
-                message: 'Something went wrong. Please try again later.'
+                message: 'Something went wrong. Please try again later.',
             })
         }
     }
 
     return (
         <>
-            <Modal setIsOpen={setIsOpen} {...props} containerPadding="p-0">
+            <Modal
+                setIsOpen={setIsOpen}
+                {...props}
+                containerPadding="p-0"
+            >
                 <div className="px-6 pt-6 text-center">
                     <h3 className="text-lg font-medium leading-6 text-gray-900">Manage Exclusions</h3>
                     <div className="px-7 py-3">
@@ -109,7 +115,10 @@ export default function AddExclusionModal({ setIsOpen, event, participant, ...pr
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-col">
                                 <InputLabel>Participant</InputLabel>
-                                <ParticipantProfile profile={participant.profile} name={participant.name} />
+                                <ParticipantProfile
+                                    profile={participant.profile}
+                                    name={participant.name}
+                                />
                             </div>
                             <div className="flex flex-col gap-2">
                                 <InputLabel>Cannot be matched with</InputLabel>

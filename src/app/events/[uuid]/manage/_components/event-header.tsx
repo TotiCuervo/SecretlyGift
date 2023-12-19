@@ -17,11 +17,11 @@ interface IProps {
 
 export default function EventHeader({ initialEvent, initialParticipants }: IProps) {
     const { data: event = initialEvent } = useEventUUIDQuery(initialEvent.uuid, {
-        initialData: initialEvent
+        initialData: initialEvent,
     })
 
     const {} = useParticipantsWithProfileByEventQuery(event.uuid, {
-        initialData: initialParticipants
+        initialData: initialParticipants,
     })
 
     return (
