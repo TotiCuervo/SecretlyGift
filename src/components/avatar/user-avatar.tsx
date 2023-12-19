@@ -4,12 +4,17 @@ import React from 'react'
 interface IProps {
     image?: string | null
     size?: string
+    smSize?: string
 }
 
-export default function UserAvatar({ image, size = '12' }: IProps) {
+export default function UserAvatar({ image, size = '12', smSize = size }: IProps) {
     return image ? (
-        <UserIcon className={`h-${size} w-${size} rounded-full border bg-white p-2`} />
+        <div className="rounded-full border bg-white p-2">
+            <UserIcon className={`h-${size} w-${size} sm:h-${smSize} sm:w-${smSize}`} />
+        </div>
     ) : (
-        <UserIcon className={`h-${size} w-${size} rounded-full border bg-white p-2`} />
+        <div className="rounded-full border bg-white p-2">
+            <UserIcon className={`h-${size} w-${size} sm:h-${smSize} sm:w-${smSize}`} />
+        </div>
     )
 }

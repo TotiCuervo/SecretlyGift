@@ -33,7 +33,7 @@ export default function ProfileDropdown() {
 
     return (
         <Dropdown menuItems={menuItems}>
-            <UserAvatar />
+            <UserAvatar size="6" />
         </Dropdown>
     )
 }

@@ -1,14 +1,11 @@
 'use client'
 import UserAvatar from '@/components/avatar/user-avatar'
 import React from 'react'
-import { twMerge } from 'tailwind-merge'
 import ParticipantOptionDropdown from '../../participant-option-dropdown'
-
-import InviteLinkButton from '../../invite-link-button'
-import { ParticipantWithProfile } from '@/types/participant/ParticipantWithProfile'
+import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 
 interface IProps {
-    participants: ParticipantWithProfile[]
+    participants: AdministrativeParticipantView[]
 }
 
 export default function ParticipantCards({ participants }: IProps) {

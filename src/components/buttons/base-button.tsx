@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 export interface BaseButtonProps
     extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     children: React.ReactNode
-    size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full' | 'full-sm'
     customClasses: string
     loading?: boolean
     loadingText?: string
@@ -16,6 +16,7 @@ export default function BaseButton({
     size = 'md',
     loading,
     loadingText,
+    disabled,
     ...props
 }: BaseButtonProps) {
     return (
@@ -23,15 +24,18 @@ export default function BaseButton({
             {...props}
             className={twMerge(
                 'rounded-lg text-center font-medium transition duration-200 ease-in-out focus:outline-none focus:ring-4',
+                size === 'xs' && 'px-2 py-1.5 text-xs',
                 size === 'sm' && 'px-4 py-2 text-xs',
                 size === 'md' && 'px-5 py-2.5 text-sm',
                 size === 'lg' && 'px-5 py-3 text-base',
                 size === 'xl' && 'px-6 py-3.5 text-base',
                 size === '2xl' && 'px-7 py-4 text-lg',
                 size === 'full' && 'h-full w-full text-base',
+                size === 'full-sm' && 'h-full w-full text-sm',
+                disabled && 'cursor-not-allowed opacity-75',
                 customClasses
             )}
-            disabled={loading}
+            disabled={loading || disabled}
         >
             {loading ? (
                 <div className="flex items-center justify-center">

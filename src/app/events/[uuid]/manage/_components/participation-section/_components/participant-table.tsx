@@ -1,16 +1,15 @@
 'use client'
 import UserAvatar from '@/components/avatar/user-avatar'
+import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
-import ParticipantOptionDropdown from '../../participant-option-dropdown'
-import { ParticipantWithProfile } from '@/types/participant/ParticipantWithProfile'
 
 interface IProps {
-    participants: ParticipantWithProfile[]
+    participants: AdministrativeParticipantView[]
 }
 
 export default function ParticipantTable({ participants }: IProps) {
-    const headers = ['Person', 'Status', 'Role']
+    const headers = ['Person', 'Role']
 
     const tdClass = 'whitespace-normal py-4 text-sm font-medium'
 
@@ -27,7 +26,7 @@ export default function ParticipantTable({ participants }: IProps) {
                             {header}
                         </th>
                     ))}
-                    <th></th>
+                    {/* <th></th> */}
                 </tr>
             </thead>
             <tbody>
@@ -42,17 +41,13 @@ export default function ParticipantTable({ participants }: IProps) {
                                 </div>
                             </div>
                         </td>
-                        <td className={twMerge(tdClass)}>
-                            <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                                Invited
-                            </span>
-                        </td>
+
                         <td className={twMerge(tdClass)}>
                             <span className="text-gray-800">{participant.is_admin ? 'Admin' : 'Participant'}</span>
                         </td>
-                        <td className={twMerge(tdClass)}>
+                        {/* <td className={twMerge(tdClass)}>
                             <ParticipantOptionDropdown participant={participant} />
-                        </td>
+                        </td> */}
                     </tr>
                 ))}
             </tbody>
