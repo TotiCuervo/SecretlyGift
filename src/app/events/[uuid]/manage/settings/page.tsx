@@ -52,7 +52,7 @@ const schema = z.object({
         .min(3, { message: 'Description needs to be more than 3 characters' })
         .max(500, { message: 'Description needs to be less than 500 characters' })
         .optional()
-        .nullable()
+        .nullable(),
 })
 
 export default function Page({ params }: IProps) {
@@ -67,15 +67,15 @@ export default function Page({ params }: IProps) {
         handleSubmit,
         control,
         formState: { isSubmitting },
-        reset
+        reset,
     } = useForm<FormData>({
         resolver: zodResolver(schema),
         defaultValues: {
             name: event?.name,
             date: event?.date ? new Date(event.date) : new Date(),
             gift_amount: event?.gift_amount,
-            description: event?.description
-        }
+            description: event?.description,
+        },
     })
 
     async function onSubmit(data: FormData) {
@@ -86,7 +86,7 @@ export default function Page({ params }: IProps) {
                 date: data.date.toLocaleDateString(),
                 name: data.name,
                 gift_amount: data.gift_amount,
-                description: data.description
+                description: data.description,
             })
 
             invalidate(uuid)
@@ -97,7 +97,7 @@ export default function Page({ params }: IProps) {
     }
 
     return (
-        <form className="card" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <h2 className="font-semibold">Event</h2>
             <div className="flex flex-col gap-4 pt-4">
                 {status && status.type === 'error' && (
@@ -110,7 +110,12 @@ export default function Page({ params }: IProps) {
                     control={control}
                     rules={{ required: true }}
                     render={({ field, fieldState }) => (
-                        <TextInput title={'Name'} {...field} error={fieldState?.error?.message} key={'name'} />
+                        <TextInput
+                            title={'Name'}
+                            {...field}
+                            error={fieldState?.error?.message}
+                            key={'name'}
+                        />
                     )}
                 />
                 <Controller
@@ -157,7 +162,11 @@ export default function Page({ params }: IProps) {
                 />
                 <div className="flex w-full justify-end">
                     <div>
-                        <PrimaryButton type="submit" loading={isSubmitting} loadingText="Saving...">
+                        <PrimaryButton
+                            type="submit"
+                            loading={isSubmitting}
+                            loadingText="Saving..."
+                        >
                             Save
                         </PrimaryButton>
                     </div>

@@ -52,13 +52,13 @@ export default async function Layout({ children, params }: IProps) {
     return (
         <div className="flex items-center justify-center">
             <div className="mx-auto w-full max-w-3xl px-4">
-                <div className="flex flex-col gap-4 pb-20">
+                <div className="flex flex-col gap-8 pb-20">
                     <EventHeader
                         initialEvent={event}
                         initialParticipants={participants}
                     />
                     <LayoutNav uuid={params.uuid} />
-                    <div className="pt-4">{children}</div>
+                    <div>{children}</div>
                 </div>
             </div>
         </div>

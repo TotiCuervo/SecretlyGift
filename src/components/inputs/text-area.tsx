@@ -19,7 +19,7 @@ export default function TextArea({ error, title, ref, ...props }: TextAreaProps)
             <div className="flex items-center">
                 <textarea
                     className={twMerge('input-field', !error && 'input-field-default', error && 'input-field-error')}
-                    rows={3}
+                    rows={6}
                     {...props}
                 />
             </div>
