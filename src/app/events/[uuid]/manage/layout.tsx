@@ -5,10 +5,11 @@ import getEvent from '@/lib/supabase/api/events/fetch/fetchEvent'
 import { Event } from '@/types/events/Event'
 import { redirect } from 'next/navigation'
 import { Metadata, ResolvingMetadata } from 'next'
-import EventHeader from './_components/event-header'
 import LayoutNav from './_components/layout-nav'
 import { AdministrativeParticipantView } from '@/types/participant/AdministrativeParticipantView'
 import fetchAdministrativeParticipants from '@/lib/supabase/api/participants/fetch/fetchAdministrativeParticipants'
+import EventEditForm from './_components/event-edit-form'
+import EventSteps from './_components/event-steps'
 
 interface IProps {
     children: React.ReactNode
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: IProps, parent: ResolvingMeta
     const { event } = await getData(params.uuid)
 
     return {
-        title: `${event.name} | Manage`,
+        title: `${event.name} | Manage`
     }
 }
 
@@ -51,12 +52,10 @@ export default async function Layout({ children, params }: IProps) {
 
     return (
         <div className="flex items-center justify-center">
-            <div className="mx-auto w-full max-w-3xl px-4">
+            <div className="mx-auto w-full max-w-5xl px-4">
                 <div className="flex flex-col gap-8 pb-20">
-                    <EventHeader
-                        initialEvent={event}
-                        initialParticipants={participants}
-                    />
+                    <EventEditForm uuid={params.uuid} />
+                    <EventSteps initialEvent={event} initialParticipants={participants} />
                     <LayoutNav uuid={params.uuid} />
                     <div>{children}</div>
                 </div>

@@ -8,7 +8,7 @@ interface IProps {
 
 export default function ExclusionCards({ participants }: IProps) {
     return (
-        <div className="flex w-full flex-col gap-4">
+        <div className="flex w-full flex-col gap-4 divide-y-2">
             {participants.map((participant) => (
                 <ExclusionCard participant={participant} key={participant.id} />
             ))}

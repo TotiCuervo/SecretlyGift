@@ -8,6 +8,7 @@ export interface BaseButtonProps
     customClasses: string
     loading?: boolean
     loadingText?: string
+    className?: string
 }
 
 export default function BaseButton({
@@ -17,6 +18,7 @@ export default function BaseButton({
     loading,
     loadingText,
     disabled,
+    className,
     ...props
 }: BaseButtonProps) {
     return (
@@ -33,7 +35,8 @@ export default function BaseButton({
                 size === 'full' && 'h-full w-full text-base',
                 size === 'full-sm' && 'h-full w-full text-sm',
                 disabled && 'cursor-not-allowed opacity-75',
-                customClasses
+                customClasses,
+                className
             )}
             disabled={loading || disabled}
         >

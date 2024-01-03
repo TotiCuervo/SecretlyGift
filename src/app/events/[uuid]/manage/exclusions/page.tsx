@@ -24,7 +24,6 @@ export default function Page({ params }: IProps) {
                 <div className="flex flex-col">
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                            <h2 className="font-semibold">Exclusions</h2>
                             <p className="text-sm text-gray-500">
                                 Add exclusions to prevent participants from being matched with each other.
                             </p>

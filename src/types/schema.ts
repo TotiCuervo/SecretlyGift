@@ -17,6 +17,8 @@ export interface Database {
           description: string | null
           gift_amount: number | null
           id: number
+          invite_text: string | null
+          invite_theme: string | null
           name: string
           uuid: string
         }
@@ -27,6 +29,8 @@ export interface Database {
           description?: string | null
           gift_amount?: number | null
           id?: number
+          invite_text?: string | null
+          invite_theme?: string | null
           name: string
           uuid?: string
         }
@@ -37,6 +41,8 @@ export interface Database {
           description?: string | null
           gift_amount?: number | null
           id?: number
+          invite_text?: string | null
+          invite_theme?: string | null
           name?: string
           uuid?: string
         }
